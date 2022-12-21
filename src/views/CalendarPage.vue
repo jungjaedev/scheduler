@@ -1,17 +1,17 @@
 <template>
   <div>
-    <CalendarHeader />
+    <!-- <CalendarHeader /> -->
     <CalendarBody />
   </div>
 </template>
 
 <script>
-import CalendarHeader from "@/components/calendar/CalendarHeader.vue";
+// import CalendarHeader from "@/components/calendar/CalendarHeader.vue";
 import CalendarBody from "@/components/calendar/CalendarBody.vue";
 
 export default {
   components: {
-    CalendarHeader,
+    // CalendarHeader,
     CalendarBody,
   },
 };

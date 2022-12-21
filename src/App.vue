@@ -1,9 +1,6 @@
 <template>
   <div>
     <CalendarPage />
-    <div>
-      <div class="font-bold underline">This is an about page</div>
-    </div>
   </div>
 </template>
 

@@ -30,6 +30,12 @@
       <!-- footer 슬롯 콘텐츠 -->
       <template v-slot:footer>
         <button
+          v-if="!this.$store.state.isNew"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          삭제
+        </button>
+        <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           @click="addMemo"
         >
@@ -48,21 +54,22 @@
     <v-calendar
       class="custom-calendar max-w-full"
       :masks="masks"
-      :attributes="attributes"
+      :attributes="this.storedMemoList"
       disable-page-swipe
       is-expanded
     >
       <template v-slot:day-content="{ day, attributes }">
         <div class="flex flex-col h-full z-10 overflow-hidden">
           <span
-            @click.prevent="openModal(day)"
+            @click.prevent="openModal(day, 'new')"
             class="day-label text-sm text-gray-900"
             >{{ day.day }}</span
           >
           <div class="flex-grow overflow-y-auto overflow-x-auto">
             <p
               v-for="attr in attributes"
-              :key="attr.customData.createAt"
+              @click.prevent="openModal(_, attr.key)"
+              :key="attr.key"
               class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1 bg-blue-500 text-white"
             >
               {{ attr.customData.title }}
@@ -114,8 +121,8 @@ export default {
     };
   },
   methods: {
-    openModal(day) {
-      this.$store.commit("showModal", day);
+    openModal(day, type) {
+      this.$store.commit("showModal", { day, type });
     },
     addMemo() {
       const obj = { newMemo: this.newMemo, newTitle: this.newTitle };

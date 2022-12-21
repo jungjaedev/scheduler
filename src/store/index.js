@@ -20,6 +20,7 @@ export default createStore({
       isOpen: false,
       memoList: stroage.fetch(),
       currentDate: "",
+      isNew: true,
     };
   },
   getters: {
@@ -28,9 +29,18 @@ export default createStore({
     },
   },
   mutations: {
-    showModal(state, day) {
+    showModal(state, payload) {
       state.isOpen = true;
-      // console.log(day);
+      /** type ===  'new' | key
+       * key면 기존 등록된 메모 clicked
+       * 'new'면 새 메모 등록
+       */
+      const { day, type } = payload;
+      if (type !== "new") {
+        state.isNew = false;
+      } else {
+        state.isNew = true;
+      }
       state.currentDate = day;
     },
     closeModal(state) {
@@ -38,18 +48,22 @@ export default createStore({
     },
     addOneMemo(state, payload) {
       const clickedDate = new Date().toLocaleString();
+      const keyArray = state.memoList.map((memo) => memo.key);
+      let key = keyArray.length === 0 ? 1 : Math.max(keyArray) + 1;
+
       const obj = {
+        key,
         customData: {
           createdAt: clickedDate,
           completed: false,
           memo: payload.newMemo,
           title: payload.newTitle,
         },
-        dates: state.currentDate,
+        dates: state.currentDate.date,
         // time:
       };
       if (!obj.customData.title) {
-        obj.title = "새로운 이벤트";
+        obj.customData.title = "새로운 이벤트";
       }
       // console.log(obj);
       localStorage.setItem(clickedDate, JSON.stringify(obj));

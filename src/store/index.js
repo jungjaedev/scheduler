@@ -21,6 +21,7 @@ export default createStore({
       memoList: stroage.fetch(),
       currentDate: "",
       isNew: true,
+      currentData: {},
     };
   },
   getters: {
@@ -31,13 +32,19 @@ export default createStore({
   mutations: {
     showModal(state, payload) {
       state.isOpen = true;
-      /** type ===  'new' | key
+      /**
+       * Todo:
+       * type ===  'new' | key
        * key면 기존 등록된 메모 clicked
        * 'new'면 새 메모 등록
        */
+
       const { day, type } = payload;
       if (type !== "new") {
         state.isNew = false;
+        console.log(type);
+        // let data = state.memoList.find((memo) => memo.key === type);
+        // state.currentData = data;
       } else {
         state.isNew = true;
       }
@@ -47,19 +54,20 @@ export default createStore({
       state.isOpen = false;
     },
     addOneMemo(state, payload) {
+      console.log(state.currentDate);
       const clickedDate = new Date().toLocaleString();
       const keyArray = state.memoList.map((memo) => memo.key);
-      let key = keyArray.length === 0 ? 1 : Math.max(keyArray) + 1;
-
+      console.log(keyArray);
+      let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
       const obj = {
         key,
+        dates: state.currentDate.date,
         customData: {
           createdAt: clickedDate,
           completed: false,
           memo: payload.newMemo,
           title: payload.newTitle,
         },
-        dates: state.currentDate.date,
         // time:
       };
       if (!obj.customData.title) {

@@ -8,47 +8,26 @@
       @click.self="this.$store.commit('closeModal')"
       v-if="this.$store.state.isOpen"
     >
-      <!-- default 슬롯 콘텐츠 -->
       <p>{{ this.$store.state.currentDate.ariaLabel }}</p>
       <div>
         <input
           class="my-1 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="grid-last-name"
           type="text"
           v-model="newTitle"
           placeholder="새로운 이벤트"
         />
         <input
           class="my-1 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="grid-last-name"
           type="text"
           v-model="newMemo"
           placeholder="메모"
         />
       </div>
-      <!-- /default -->
-      <!-- footer 슬롯 콘텐츠 -->
       <template v-slot:footer>
-        <button
-          v-if="!this.$store.state.isNew"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          삭제
-        </button>
-        <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          @click="addMemo"
-        >
-          저장
-        </button>
-        <button
-          class="ml-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          @click="cancelModal"
-        >
-          닫기
-        </button>
+        <ButtonTemplate v-if="!this.$store.state.isNew">삭제</ButtonTemplate>
+        <ButtonTemplate @click="addMemo"> 저장 </ButtonTemplate>
+        <ButtonTemplate @click="cancelModal"> 닫기 </ButtonTemplate>
       </template>
-      <!-- /footer -->
     </MemoModal>
 
     <v-calendar
@@ -70,7 +49,7 @@
               v-for="attr in attributes"
               @click.prevent="openModal(_, attr.key)"
               :key="attr.key"
-              class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1 bg-blue-500 text-white"
+              class="cursor-pointer text-xs leading-tight rounded-sm p-1 mt-0 mb-1 bg-blue-500 text-white"
             >
               {{ attr.customData.title }}
             </p>
@@ -83,15 +62,15 @@
 
 <script>
 import MemoModal from "@/components/common/MemoModal.vue";
+import ButtonTemplate from "@/components/templates/ButtonTemplate.vue";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
     MemoModal,
+    ButtonTemplate,
   },
   data() {
-    const month = new Date().getMonth();
-    const year = new Date().getFullYear();
     return {
       newMemo: "",
       newTitle: "",
@@ -99,25 +78,6 @@ export default {
         title: "YYYY년 MMMM",
         weekdays: "WWW",
       },
-      attributes: [
-        {
-          dates: new Date(year, month, 2),
-          customData: {
-            memo: "aaa",
-            title: "abc",
-            createdAt: "2022. 12. 21. 오후 4:25:47",
-            completed: false,
-          },
-        },
-        // {
-        //   key: 2,
-        //   customData: {
-        //     title: "Take Noah to basketball practice",
-        //     class: "bg-blue-500 text-white",
-        //   },
-        //   dates: new Date(year, month, 2),
-        // },
-      ],
     };
   },
   methods: {
@@ -131,7 +91,7 @@ export default {
         this.$store.commit("closeModal");
         this.clearInput();
       } else {
-        // 메모가 비어있고 저장 시 경고
+        // 메모가 비어있고 저장 시 저장 안되고 경고 표시
       }
     },
     cancelModal() {

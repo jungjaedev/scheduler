@@ -16,12 +16,6 @@
           v-model="newTitle"
           placeholder="새로운 이벤트"
         />
-        <!-- <input
-          class="my-1 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          type="text"
-          v-model="newMemo"
-          placeholder="메모"
-        /> -->
         <input
           class="my-1 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           type="text"
@@ -30,7 +24,9 @@
         />
       </div>
       <template v-slot:footer>
-        <ButtonTemplate v-if="!this.$store.state.isNew">삭제</ButtonTemplate>
+        <ButtonTemplate v-if="!this.$store.state.isNew" @click="removeMemo"
+          >삭제</ButtonTemplate
+        >
         <ButtonTemplate @click="addMemo"> 저장 </ButtonTemplate>
         <ButtonTemplate @click="cancelModal"> 닫기 </ButtonTemplate>
       </template>
@@ -88,9 +84,20 @@ export default {
   },
   methods: {
     openModal(day, type) {
-      this.setInputValue();
-      this.$store.commit("showModal", { day, type });
+      if (type !== "new") {
+        this.$store.state.isNew = false;
+        let data = this.$store.state.memoList.find((memo) => memo.key === type);
+        this.$store.state.currentData = data;
+        this.setInputValue();
+      } else {
+        this.$store.state.isNew = true;
+      }
+      this.$store.commit("showModal", { day });
     },
+    // openModal(day, type) {
+    //   this.setInputValue();
+    //   this.$store.commit("showModal", { day, type });
+    // },
     addMemo() {
       const obj = { newMemo: this.newMemo, newTitle: this.newTitle };
       if (this.newMemo !== "") {
@@ -105,6 +112,11 @@ export default {
         // 메모가 비어있고 저장 시 저장 안되고 경고 표시
       }
     },
+    removeMemo() {
+      this.$store.commit("removeOneMemo");
+      this.$store.commit("closeModal");
+      this.clearInput();
+    },
     cancelModal() {
       this.$store.commit("closeModal");
       this.clearInput();
@@ -114,10 +126,8 @@ export default {
       this.newTitle = "";
     },
     setInputValue() {
-      if (!this.$store.state.isNew) {
-        this.newMemo = this.$store.state.currentData.customData.memo;
-        this.newTitle = this.$store.state.currentData.customData.title;
-      }
+      this.newMemo = this.$store.state.currentData.customData.memo;
+      this.newTitle = this.$store.state.currentData.customData.title;
     },
   },
   computed: {

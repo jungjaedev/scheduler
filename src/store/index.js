@@ -32,22 +32,7 @@ export default createStore({
   mutations: {
     showModal(state, payload) {
       state.isOpen = true;
-      /**
-       * Todo:
-       * type ===  'new' | key
-       * key면 기존 등록된 메모 clicked
-       * 'new'면 새 메모 등록
-       */
-
-      const { day, type } = payload;
-
-      if (type !== "new") {
-        state.isNew = false;
-        let data = state.memoList.find((memo) => memo.key === type);
-        state.currentData = data;
-      } else {
-        state.isNew = true;
-      }
+      const { day } = payload;
       state.currentDate = day;
     },
     closeModal(state) {
@@ -71,18 +56,29 @@ export default createStore({
       if (!obj.customData.title) {
         obj.customData.title = "새로운 이벤트";
       }
-      localStorage.setItem(clickedDate, JSON.stringify(obj));
+      localStorage.setItem(key, JSON.stringify(obj));
       state.memoList.push(obj);
     },
     editOneMemo(state, payload) {
-      // find data from  memoList by using key.
-      const foundKey = state.memoList.findIndex(
-        (index) => state.currentData.key
+      const indexOfData = state.memoList.findIndex(
+        (memo) => memo.key === state.currentData.key
       );
-      console.log(foundKey);
-      // edit data from currentData by useing payload
-      // find data from localhost and splice that one, and push
-      // edited data
+      state.currentData.customData.memo = payload.newMemo;
+      state.currentData.customData.title = payload.newTitle;
+      localStorage.setItem(
+        state.currentData.key,
+        JSON.stringify(state.currentData)
+      );
+      state.memoList[indexOfData].customData.memo = payload.newMemo;
+      state.memoList[indexOfData].customData.title = payload.newTitle;
+    },
+    removeOneMemo(state) {
+      const indexOfData = state.memoList.findIndex(
+        (memo) => memo.key === state.currentData.key
+      );
+      localStorage.removeItem(state.currentData.key);
+      state.memoList.splice(indexOfData, 1);
+      state.currentData = {};
     },
   },
   actions: {},

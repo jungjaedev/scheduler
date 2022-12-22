@@ -4,11 +4,7 @@
     <p class="text-lg font-medium text-gray-600 mb-6">
       Roll your own calendars using scoped slots
     </p> -->
-    <MemoModal
-      @click.self="this.$store.commit('closeModal')"
-      v-if="this.$store.state.isOpen"
-    >
-      <p>{{ this.$store.state.currentDate.ariaLabel }}</p>
+    <MemoModal @click.self="cancelModal" v-if="this.$store.state.isOpen">
       <div>
         <input
           class="my-1 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -16,13 +12,18 @@
           v-model="newTitle"
           placeholder="새로운 이벤트"
         />
+
         <input
           class="my-1 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           type="text"
           v-model="newMemo"
+          @focus="isEmpty = false"
           placeholder="메모"
         />
+        <TimePicker></TimePicker>
       </div>
+      <p v-show="isEmpty">메모를 입력해주세요</p>
+
       <template v-slot:footer>
         <ButtonTemplate v-if="!this.$store.state.isNew" @click="removeMemo"
           >삭제</ButtonTemplate
@@ -31,7 +32,6 @@
         <ButtonTemplate @click="cancelModal"> 닫기 </ButtonTemplate>
       </template>
     </MemoModal>
-
     <v-calendar
       class="custom-calendar max-w-full"
       :masks="masks"
@@ -49,7 +49,7 @@
           <div class="flex-grow overflow-y-auto overflow-x-auto">
             <p
               v-for="attr in attributes"
-              @click.prevent="openModal(_, attr.key)"
+              @click.prevent="openModal(day, attr.key)"
               :key="attr.key"
               class="cursor-pointer text-xs leading-tight rounded-sm p-1 mt-0 mb-1 bg-blue-500 text-white"
             >
@@ -63,19 +63,22 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import MemoModal from "@/components/common/MemoModal.vue";
 import ButtonTemplate from "@/components/templates/ButtonTemplate.vue";
-import { mapGetters } from "vuex";
+import TimePicker from "@/components/common/TimePicker.vue";
 
 export default {
   components: {
     MemoModal,
     ButtonTemplate,
+    TimePicker,
   },
   data() {
     return {
       newMemo: "",
       newTitle: "",
+      isEmpty: false,
       masks: {
         title: "YYYY년 MMMM",
         weekdays: "WWW",
@@ -94,10 +97,6 @@ export default {
       }
       this.$store.commit("showModal", { day });
     },
-    // openModal(day, type) {
-    //   this.setInputValue();
-    //   this.$store.commit("showModal", { day, type });
-    // },
     addMemo() {
       const obj = { newMemo: this.newMemo, newTitle: this.newTitle };
       if (this.newMemo !== "") {
@@ -109,7 +108,7 @@ export default {
         this.$store.commit("closeModal");
         this.clearInput();
       } else {
-        // 메모가 비어있고 저장 시 저장 안되고 경고 표시
+        this.isEmpty = true;
       }
     },
     removeMemo() {

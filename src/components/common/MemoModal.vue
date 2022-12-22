@@ -1,9 +1,6 @@
 <template>
   <transition name="modal" appear>
-    <div
-      class="modal modal-overlay"
-      @click.self="this.$store.commit('closeModal')"
-    >
+    <div class="modal modal-overlay">
       <div class="modal-window">
         <div class="modal-content">
           <slot />

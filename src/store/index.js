@@ -40,11 +40,11 @@ export default createStore({
        */
 
       const { day, type } = payload;
+
       if (type !== "new") {
         state.isNew = false;
-        console.log(type);
-        // let data = state.memoList.find((memo) => memo.key === type);
-        // state.currentData = data;
+        let data = state.memoList.find((memo) => memo.key === type);
+        state.currentData = data;
       } else {
         state.isNew = true;
       }
@@ -54,10 +54,8 @@ export default createStore({
       state.isOpen = false;
     },
     addOneMemo(state, payload) {
-      console.log(state.currentDate);
       const clickedDate = new Date().toLocaleString();
       const keyArray = state.memoList.map((memo) => memo.key);
-      console.log(keyArray);
       let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
       const obj = {
         key,
@@ -73,9 +71,18 @@ export default createStore({
       if (!obj.customData.title) {
         obj.customData.title = "새로운 이벤트";
       }
-      // console.log(obj);
       localStorage.setItem(clickedDate, JSON.stringify(obj));
       state.memoList.push(obj);
+    },
+    editOneMemo(state, payload) {
+      // find data from  memoList by using key.
+      const foundKey = state.memoList.findIndex(
+        (index) => state.currentData.key
+      );
+      console.log(foundKey);
+      // edit data from currentData by useing payload
+      // find data from localhost and splice that one, and push
+      // edited data
     },
   },
   actions: {},

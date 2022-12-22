@@ -16,6 +16,12 @@
           v-model="newTitle"
           placeholder="새로운 이벤트"
         />
+        <!-- <input
+          class="my-1 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          type="text"
+          v-model="newMemo"
+          placeholder="메모"
+        /> -->
         <input
           class="my-1 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           type="text"
@@ -82,12 +88,17 @@ export default {
   },
   methods: {
     openModal(day, type) {
+      this.setInputValue();
       this.$store.commit("showModal", { day, type });
     },
     addMemo() {
       const obj = { newMemo: this.newMemo, newTitle: this.newTitle };
       if (this.newMemo !== "") {
-        this.$store.commit("addOneMemo", obj);
+        if (this.$store.state.isNew) {
+          this.$store.commit("addOneMemo", obj);
+        } else {
+          this.$store.commit("editOneMemo", obj);
+        }
         this.$store.commit("closeModal");
         this.clearInput();
       } else {
@@ -101,6 +112,12 @@ export default {
     clearInput() {
       this.newMemo = "";
       this.newTitle = "";
+    },
+    setInputValue() {
+      if (!this.$store.state.isNew) {
+        this.newMemo = this.$store.state.currentData.customData.memo;
+        this.newTitle = this.$store.state.currentData.customData.title;
+      }
     },
   },
   computed: {

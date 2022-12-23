@@ -22,11 +22,23 @@ export default createStore({
       currentDate: "",
       isNew: true,
       currentData: {},
+      time: {
+        hours: "01",
+        minutes: "00",
+        ampm: "am",
+        alert: "none",
+      },
     };
   },
   getters: {
     storedMemoList(state) {
       return state.memoList;
+    },
+    storedTime(state) {
+      return state.time;
+    },
+    storedCurrentData(state) {
+      return state.currentData;
     },
   },
   mutations: {
@@ -42,6 +54,7 @@ export default createStore({
       const clickedDate = new Date().toLocaleString();
       const keyArray = state.memoList.map((memo) => memo.key);
       let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
+
       const obj = {
         key,
         dates: state.currentDate.date,
@@ -50,8 +63,8 @@ export default createStore({
           completed: false,
           memo: payload.newMemo,
           title: payload.newTitle,
+          time: state.time,
         },
-        // time:
       };
       if (!obj.customData.title) {
         obj.customData.title = "새로운 이벤트";
@@ -65,6 +78,7 @@ export default createStore({
       );
       state.currentData.customData.memo = payload.newMemo;
       state.currentData.customData.title = payload.newTitle;
+      state.currentData.customData.time = state.time;
       localStorage.setItem(
         state.currentData.key,
         JSON.stringify(state.currentData)
@@ -79,6 +93,12 @@ export default createStore({
       localStorage.removeItem(state.currentData.key);
       state.memoList.splice(indexOfData, 1);
       state.currentData = {};
+    },
+    updateTime(state, time) {
+      state.time = time;
+    },
+    checkAlert(state) {
+      console.log(state.time);
     },
   },
   actions: {},

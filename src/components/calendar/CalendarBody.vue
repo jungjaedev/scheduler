@@ -22,7 +22,8 @@
         />
         <TimePicker></TimePicker>
       </div>
-      <p v-show="isEmpty">메모를 입력해주세요</p>
+      <p v-if="isEmpty">메모를 입력해주세요</p>
+      <p v-else>&nbsp;</p>
 
       <template v-slot:footer>
         <ButtonTemplate v-if="!this.$store.state.isNew" @click="removeMemo"
@@ -33,6 +34,7 @@
       </template>
     </MemoModal>
     <v-calendar
+      ref="calendar"
       class="custom-calendar max-w-full"
       :masks="masks"
       :attributes="this.storedMemoList"
@@ -44,18 +46,69 @@
           <span
             @click.prevent="openModal(day, 'new')"
             class="day-label text-sm text-gray-900"
-            >{{ day.day }}</span
-          >
+            :class="{
+              today:
+                day.date.toLocaleString().slice(0, 13) ===
+                new Date().toLocaleString().slice(0, 13),
+            }"
+            >{{ day.day }}
+          </span>
           <div class="flex-grow overflow-y-auto overflow-x-auto">
             <p
               v-for="attr in attributes"
               @click.prevent="openModal(day, attr.key)"
               :key="attr.key"
+              :class="[
+                { alert: attr.customData.time.alert !== 'none' },
+                {
+                  timeset:
+                    (attr.customData.time.hours !== '01' ||
+                      attr.customData.time.minutes !== '00' ||
+                      attr.customData.time.ampm !== 'am') &&
+                    attr.customData.time.alert === 'none',
+                },
+              ]"
               class="cursor-pointer text-xs leading-tight rounded-sm p-1 mt-0 mb-1 bg-blue-500 text-white"
             >
-              {{ attr.customData.title }}
+              <span
+                v-if="attr.customData.time.alert !== 'none'"
+                class="text-xxs"
+              >
+                <i class="fa-regular fa-bell"></i>
+              </span>
+              <span class="">
+                {{ attr.customData.title }}
+              </span>
+              <!-- <span
+                v-if="
+                  attr.customData.time.hours !== '01' ||
+                  attr.customData.time.minutes !== '00' ||
+                  attr.customData.time.ampm !== 'am'
+                "
+                class="text-xxs text-right "
+              > -->
+              <span
+                v-if="
+                  attr.customData.time.hours !== '01' ||
+                  attr.customData.time.minutes !== '00' ||
+                  attr.customData.time.ampm !== 'am'
+                "
+                class="text-xxs text-right inline-block w-10"
+              >
+                {{
+                  attr.customData.time.hours +
+                  ":" +
+                  attr.customData.time.minutes
+                }}
+              </span>
             </p>
           </div>
+        </div>
+      </template>
+      <template v-slot:footer>
+        <div class="bg-gray-100 text-center p-2 border-t rounded-b-lg">
+          <ButtonTemplate @click="moveToToday">Today</ButtonTemplate>
+          <ButtonTemplate @click="showSchedulList">일정확인</ButtonTemplate>
         </div>
       </template>
     </v-calendar>
@@ -91,9 +144,16 @@ export default {
         this.$store.state.isNew = false;
         let data = this.$store.state.memoList.find((memo) => memo.key === type);
         this.$store.state.currentData = data;
+        this.$store.state.time = data.customData.time;
         this.setInputValue();
       } else {
         this.$store.state.isNew = true;
+        this.$store.state.time = {
+          hours: "01",
+          minutes: "00",
+          ampm: "am",
+          alert: "none",
+        };
       }
       this.$store.commit("showModal", { day });
     },
@@ -128,6 +188,12 @@ export default {
       this.newMemo = this.$store.state.currentData.customData.memo;
       this.newTitle = this.$store.state.currentData.customData.title;
     },
+    moveToToday() {
+      this.$refs.calendar.move(new Date());
+    },
+    showSchedulList() {
+      console.log("showList");
+    },
   },
   computed: {
     ...mapGetters(["storedMemoList"]),
@@ -145,8 +211,8 @@ export default {
 /deep/ .custom-calendar.vc-container {
   --day-border: 1px solid #b8c2cc;
   --day-border-highlight: 1px solid #b8c2cc;
-  --day-width: 90px;
-  --day-height: 90px;
+  --day-width: 97px;
+  --day-height: 105px;
   --weekday-bg: #f8fafc;
   --weekday-border: 1px solid #eaeaea;
   border-radius: 0;
@@ -175,6 +241,7 @@ export default {
     height: var(--day-height);
     min-width: var(--day-width);
     background-color: white;
+    overflow: hidden;
     &.weekday-1,
     &.weekday-7 {
       background-color: #eff8ff;
@@ -192,5 +259,15 @@ export default {
   & .vc-day-dots {
     margin-bottom: 5px;
   }
+}
+.alert {
+  background-color: rgb(21, 166, 125);
+}
+.timeset {
+  background-color: rgb(230, 173, 0);
+}
+
+.today {
+  color: blue;
 }
 </style>

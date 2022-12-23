@@ -3,34 +3,34 @@
     <div class="flex">
       {{ this.$store.state.currentDate.id.replaceAll("-", ". ") + "." }}
       <select
-        v-model="hours"
+        v-model="this.storedTime.hours"
         name="hours"
         class="bg-transparent text-base outline-none ml-1"
       >
-        <option value="1">01</option>
-        <option value="2">02</option>
-        <option value="3">03</option>
-        <option value="4">04</option>
-        <option value="5">05</option>
-        <option value="6">06</option>
-        <option value="7">07</option>
-        <option value="8">08</option>
-        <option value="9">09</option>
+        <option value="01">01</option>
+        <option value="02">02</option>
+        <option value="03">03</option>
+        <option value="04">04</option>
+        <option value="05">05</option>
+        <option value="06">06</option>
+        <option value="07">07</option>
+        <option value="08">08</option>
+        <option value="09">09</option>
         <option value="10">10</option>
         <option value="11">10</option>
         <option value="12">12</option>
       </select>
       <span class="text-base mx-1">:</span>
       <select
-        v-model="minutes"
+        v-model="this.storedTime.minutes"
         name="minutes"
         class="bg-transparent text-base outline-none"
       >
-        <option value="0">00</option>
+        <option value="00">00</option>
         <option value="30">30</option>
       </select>
       <select
-        v-model="ampm"
+        v-model="this.storedTime.ampm"
         name="ampm"
         class="bg-transparent text-base outline-none"
       >
@@ -38,7 +38,7 @@
         <option value="pm">오후</option>
       </select>
       <select
-        v-model="alert"
+        v-model="this.storedTime.alert"
         name="alert"
         class="bg-transparent text-base outline-none"
       >
@@ -51,14 +51,22 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
+
 export default {
-  data() {
-    return {
-      hours: "1",
-      minutes: "0",
-      ampm: "am",
-      alert: "none",
-    };
+  computed: {
+    ...mapGetters(["storedTime"]),
+    timeData: {
+      get() {
+        return this.storedTime;
+      },
+      set(value) {
+        this.updateTime(value);
+      },
+    },
+  },
+  methods: {
+    ...mapMutations(["updateTime"]),
   },
 };
 </script>

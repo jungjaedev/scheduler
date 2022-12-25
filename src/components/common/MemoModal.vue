@@ -3,10 +3,35 @@
     <div class="modal modal-overlay">
       <div class="modal-window">
         <div class="modal-content">
-          <slot />
+          <!-- <slot /> -->
+          <label>이벤트</label>
+          <input
+            class="my-1 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            type="text"
+            v-model="storedCurrentData.customData.title"
+            placeholder="새로운 이벤트"
+          />
+          <label for="">메모 </label>
+          <input
+            class="my-1 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            type="text"
+            v-model="storedCurrentData.customData.memo"
+            @focus="isEmpty = false"
+            placeholder="메모"
+          />
+          <TimePicker></TimePicker>
         </div>
+        <p v-if="isEmpty">메모를 입력해주세요</p>
+        <p v-else>&nbsp;</p>
         <footer class="modal-footer">
-          <slot name="footer"> </slot>
+          <!-- <slot name="footer"> </slot> -->
+          <ButtonTemplate v-if="!this.$store.state.isNew" @click="removeMemo"
+            >삭제</ButtonTemplate
+          >
+          <ButtonTemplate @click="addMemo"> 저장 </ButtonTemplate>
+          <ButtonTemplate @click="this.$store.commit('closeModal')">
+            닫기
+          </ButtonTemplate>
         </footer>
       </div>
     </div>
@@ -14,7 +39,38 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import TimePicker from "@/components/common/TimePicker.vue";
+import ButtonTemplate from "@/components/templates/ButtonTemplate.vue";
+
+export default {
+  components: {
+    TimePicker,
+    ButtonTemplate,
+  },
+  data() {
+    return {
+      newTitle: "",
+      newMemo: "",
+      isEmpty: false,
+    };
+  },
+  computed: {
+    ...mapGetters(["storedInput", "storedCurrentData", "storedOriginalData"]),
+    inputs: {
+      get() {
+        return this.storedInput;
+      },
+      set(value) {
+        this.updateInput(value);
+      },
+    },
+  },
+  methods: {
+    ...mapMutations(["updateInput"]),
+    ...mapActions(["removeMemo", "addMemo"]),
+  },
+};
 </script>
 
 <style scoped>

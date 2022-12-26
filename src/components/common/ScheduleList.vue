@@ -17,26 +17,29 @@
                 "
                 class="pl-2 text-sm font-semibold text-gray-900"
               >
-                {{ memo.dates }} {{ this.day[new Date(memo.dates).getDay()] }}
+                {{ memo.dates.replaceAll("-", ". ") + "." }}
+                {{ this.day[new Date(memo.dates).getDay()] }}
               </div>
-              <div class="pl-2 text-sm">
-                <span
-                  class="text-blue-500 text-xxs mr-1"
-                  :class="[
-                    { alert: memo.customData.time.alert !== 'none' },
-                    {
-                      timeset:
-                        (memo.customData.time.hours !== '01' ||
-                          memo.customData.time.minutes !== '00' ||
-                          memo.customData.time.ampm !== 'am') &&
-                        memo.customData.time.alert === 'none',
-                    },
-                  ]"
-                  ><i class="fa-solid fa-circle"></i
-                ></span>
-                <span>
-                  {{ memo.customData.title }} &nbsp;
-                  <span class="text-xs">
+              <div class="pl-2 text-sm flex">
+                <div>
+                  <span
+                    class="text-blue-500 text-xxs mr-1"
+                    :class="[
+                      { alert: memo.customData.time.alert !== 'none' },
+                      {
+                        timeset:
+                          (memo.customData.time.hours !== '01' ||
+                            memo.customData.time.minutes !== '00' ||
+                            memo.customData.time.ampm !== 'am') &&
+                          memo.customData.time.alert === 'none',
+                      },
+                    ]"
+                    ><i class="fa-solid fa-circle"></i
+                  ></span>
+                  <span> {{ memo.customData.title }} &nbsp; </span>
+                </div>
+                <div>
+                  <span class="text-xs text-right">
                     {{
                       memo.customData.time.hours !== "01" ||
                       memo.customData.time.minutes !== "00" ||
@@ -47,7 +50,7 @@
                         : null
                     }}
                   </span>
-                </span>
+                </div>
               </div>
               <hr
                 v-if="

@@ -2,22 +2,30 @@
   <transition name="modal" appear>
     <div class="modal modal-overlay">
       <div class="modal-window">
-        <div class="modal-content">
-          <div class="flex">
-            <label for="title" class="w-1/5 my-1 py-3">이벤트</label>
+        <div class="modal-content w-80">
+          <div class="mb-2">
+            <label
+              for="title"
+              class="text-left block left-0 mb-1 pl-1 text-sm font-medium text-gray-900"
+              >이벤트</label
+            >
             <input
               id="title"
-              class="my-1 appearance-none block w-4/5 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               type="text"
               v-model="storedCurrentData.customData.title"
               placeholder="새로운 이벤트"
             />
           </div>
-          <div class="flex">
-            <label class="w-1/5 my-1 py-3" for="memo">메모 </label>
+          <div class="mb-2">
+            <label
+              for="memo"
+              class="text-left block left-0 mb-1 pl-1 text-sm font-medium text-gray-900"
+              >메모</label
+            >
             <input
               id="memo"
-              class="my-1 appearance-none block w-4/5 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               type="text"
               v-model="storedCurrentData.customData.memo"
               @focus="this.$store.state.isEmpty = false"
@@ -26,7 +34,13 @@
           </div>
           <TimePicker></TimePicker>
         </div>
-        <p v-if="this.$store.state.isEmpty">메모를 입력해주세요</p>
+        <div
+          v-if="this.$store.state.isEmpty"
+          class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-1"
+          role="alert"
+        >
+          <p>메모를 입력해주세요</p>
+        </div>
         <p v-else>&nbsp;</p>
         <footer class="modal-footer">
           <ButtonTemplate v-if="!this.$store.state.isNew" @click="removeMemo"

@@ -53,8 +53,8 @@ export default createStore({
         // 원래 메모 클릭
         state.isNew = false;
         let data = state.memoList.find((memo) => memo.key === payload.type);
-        // state.currentData = data;
         /**
+         * - state.currentData = data;
          * * v-model을 통해 양방향 바인딩되어 view에 보여지는 데이터까지 같이 변경됨..
          * -> 깊은 복사를 통해 해결..
          */
@@ -77,6 +77,7 @@ export default createStore({
     },
     closeModal(state) {
       state.isOpen = false;
+      state.isEmpty = false;
       state.memoList = storage.fetch();
     },
     addOneMemo(state, payload) {

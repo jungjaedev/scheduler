@@ -3,14 +3,14 @@
     <div class="flex flex-col">
       <div class="flex">
         <div class="w-full text-sm">
-          {{ this.$store.state.currentDate.id.replaceAll("-", ". ") + "." }}
+          {{ $store.state.currentDate.id.replaceAll("-", ". ") + "." }}
         </div>
       </div>
       <div class="flex">
         <div>알림 설정</div>
         <div>
           <select
-            v-model="this.storedTime.hours"
+            v-model="storedCurrentData.customData.time.hours"
             name="hours"
             class="bg-transparent text-base outline-none ml-1"
           >
@@ -29,7 +29,7 @@
           </select>
           <span class="text-base mx-1">:</span>
           <select
-            v-model="this.storedTime.minutes"
+            v-model="storedCurrentData.customData.time.minutes"
             name="minutes"
             class="bg-transparent text-base outline-none"
           >
@@ -37,7 +37,7 @@
             <option value="30">30</option>
           </select>
           <select
-            v-model="this.storedTime.ampm"
+            v-model="storedCurrentData.customData.time.ampm"
             name="ampm"
             class="bg-transparent text-base outline-none"
           >
@@ -45,7 +45,7 @@
             <option value="pm">오후</option>
           </select>
           <select
-            v-model="this.storedTime.alert"
+            v-model="storedCurrentData.customData.time.alert"
             name="alert"
             class="bg-transparent text-base outline-none"
           >
@@ -60,22 +60,11 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["storedTime"]),
-    timeData: {
-      get() {
-        return this.storedTime;
-      },
-      set(value) {
-        this.updateTime(value);
-      },
-    },
-  },
-  methods: {
-    ...mapMutations(["updateTime"]),
+    ...mapGetters(["storedCurrentData"]),
   },
 };
 </script>

@@ -1,8 +1,8 @@
 <template>
   <transition name="modal" appear>
     <div class="modal modal-overlay">
-      <div class="modal-window">
-        <div class="modal-content">
+      <div class="modal-window cursor-default">
+        <div class="modal-content overflow-y-scroll max-h-96 w-60">
           <ul
             class="space-y-1 max-w-md list-inside"
             v-for="(memo, index) in storedMemoList"
@@ -122,15 +122,10 @@ export default {
   background: #fff;
   border-radius: 4px;
   overflow: hidden;
-  cursor: default;
 }
 
 .modal-content {
   padding: 15px 20px 10px;
-  overflow-y: scroll;
-  max-height: 25rem;
-  min-height: 15rem;
-  width: 15rem;
 }
 
 .modal-footer {

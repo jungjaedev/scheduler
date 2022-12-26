@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import TimePicker from "@/components/common/TimePicker.vue";
 import ButtonTemplate from "@/components/templates/ButtonTemplate.vue";
 
@@ -52,26 +52,10 @@ export default {
     TimePicker,
     ButtonTemplate,
   },
-  data() {
-    return {
-      newTitle: "",
-      newMemo: "",
-      isEmpty: false,
-    };
-  },
   computed: {
-    ...mapGetters(["storedInput", "storedCurrentData", "storedOriginalData"]),
-    inputs: {
-      get() {
-        return this.storedInput;
-      },
-      set(value) {
-        this.updateInput(value);
-      },
-    },
+    ...mapGetters(["storedCurrentData"]),
   },
   methods: {
-    ...mapMutations(["updateInput"]),
     ...mapActions(["removeMemo", "addMemo"]),
   },
 };

@@ -36,29 +36,6 @@ export default createStore({
           },
         },
       },
-      originalData: {
-        customData: {
-          createdAt: "",
-          memo: "",
-          title: "",
-          time: {
-            hours: "01",
-            minutes: "00",
-            ampm: "am",
-            alert: "none",
-          },
-        },
-      },
-      time: {
-        hours: "01",
-        minutes: "00",
-        ampm: "am",
-        alert: "none",
-      },
-      input: {
-        title: "",
-        memo: "",
-      },
       isListModalOpen: false,
     };
   },
@@ -66,17 +43,8 @@ export default createStore({
     storedMemoList(state) {
       return state.memoList;
     },
-    storedTime(state) {
-      return state.time;
-    },
     storedCurrentData(state) {
       return state.currentData;
-    },
-    storedOriginalData(state) {
-      return state.originalData;
-    },
-    storedInput(state) {
-      return state.input;
     },
   },
   mutations: {
@@ -85,15 +53,18 @@ export default createStore({
         // 원래 메모 클릭
         state.isNew = false;
         let data = state.memoList.find((memo) => memo.key === payload.type);
-        state.originalData = data;
-        state.currentData = data;
-        state.time = data.customData.time;
+        // state.currentData = data;
+        /**
+         * * v-model을 통해 양방향 바인딩되어 view에 보여지는 데이터까지 같이 변경됨..
+         * -> 깊은 복사를 통해 해결..
+         */
+        state.currentData = JSON.parse(JSON.stringify(data));
       } else {
         // 새 메모 작성
         state.currentData.customData.title = "";
         state.currentData.customData.memo = "";
         state.isNew = true;
-        state.time = {
+        state.currentData.customData.time = {
           hours: "01",
           minutes: "00",
           ampm: "am",
@@ -103,7 +74,6 @@ export default createStore({
       state.isOpen = true;
       const { day } = payload;
       state.currentDate = day;
-      // console.log(state.currentDate);
     },
     closeModal(state) {
       state.isOpen = false;
@@ -121,7 +91,7 @@ export default createStore({
           createdAt: clickedDate,
           memo: payload.newMemo,
           title: payload.newTitle,
-          time: state.time,
+          time: state.currentData.customData.time,
         },
       };
       if (!obj.customData.title) {
@@ -136,7 +106,6 @@ export default createStore({
       );
       state.currentData.customData.memo = payload.newMemo;
       state.currentData.customData.title = payload.newTitle;
-      state.currentData.customData.time = state.time;
       localStorage.setItem(
         state.currentData.key,
         JSON.stringify(state.currentData)
@@ -151,12 +120,6 @@ export default createStore({
       localStorage.removeItem(state.currentData.key);
       state.memoList.splice(indexOfData, 1);
       state.currentData = {};
-    },
-    updateTime(state, time) {
-      state.time = time;
-    },
-    updateInput(state, input) {
-      state.input = input;
     },
     fetchData(state) {
       state.memoList = storage.fetch();

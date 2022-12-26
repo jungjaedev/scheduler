@@ -10,6 +10,7 @@ const storage = {
         }
       }
     }
+    arr.sort((a, b) => Date.parse(a.dates) - Date.parse(b.dates));
     return arr;
   },
 };
@@ -21,10 +22,10 @@ export default createStore({
       memoList: storage.fetch(),
       currentDate: "",
       isNew: true,
+      isEmpty: false,
       currentData: {
         customData: {
           createdAt: "",
-          completed: false,
           memo: "",
           title: "",
           time: {
@@ -38,7 +39,6 @@ export default createStore({
       originalData: {
         customData: {
           createdAt: "",
-          completed: false,
           memo: "",
           title: "",
           time: {
@@ -59,6 +59,7 @@ export default createStore({
         title: "",
         memo: "",
       },
+      isListModalOpen: false,
     };
   },
   getters: {
@@ -80,7 +81,6 @@ export default createStore({
   },
   mutations: {
     showModal(state, payload) {
-      console.log(payload.day);
       if (payload.type !== "new") {
         // 원래 메모 클릭
         state.isNew = false;
@@ -88,9 +88,6 @@ export default createStore({
         state.originalData = data;
         state.currentData = data;
         state.time = data.customData.time;
-        // console.log(data);
-        // state.originalData.customData.title = state.currentData.customData.title;
-        // state.input.memo = state.currentData.customData.memo;
       } else {
         // 새 메모 작성
         state.currentData.customData.title = "";
@@ -106,24 +103,22 @@ export default createStore({
       state.isOpen = true;
       const { day } = payload;
       state.currentDate = day;
-      console.log(state.currentDate);
+      // console.log(state.currentDate);
     },
     closeModal(state) {
       state.isOpen = false;
-      // state.currentData.customData.title = "";
-      // state.currentData.customData.memo = "";
       state.memoList = storage.fetch();
     },
     addOneMemo(state, payload) {
       const clickedDate = new Date().toLocaleString();
       const keyArray = state.memoList.map((memo) => memo.key);
       let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
+
       const obj = {
         key,
-        dates: state.currentDate.date,
+        dates: state.currentDate.id,
         customData: {
           createdAt: clickedDate,
-          completed: false,
           memo: payload.newMemo,
           title: payload.newTitle,
           time: state.time,
@@ -170,6 +165,9 @@ export default createStore({
       const { type, value } = payload;
       state.currentData.customData[type] = value;
     },
+    showScheduleList(state) {
+      state.isListModalOpen = true;
+    },
   },
   actions: {
     removeMemo(context) {
@@ -177,24 +175,10 @@ export default createStore({
       context.commit("closeModal");
     },
     addMemo(context) {
-      // const obj = {
-      //   newMemo: context.state.input.memo,
-      //   newTitle: context.state.input.title,
-      // };
       const obj = {
         newMemo: context.state.currentData.customData.memo,
         newTitle: context.state.currentData.customData.title,
       };
-      // if (context.state.input.memo !== "") {
-      //   if (context.state.isNew) {
-      //     context.commit("addOneMemo", obj);
-      //   } else {
-      //     context.commit("editOneMemo", obj);
-      //   }
-      //   context.commit("closeModal");
-      // } else {
-      //   context.state.isEmpty = true;
-      // }
       if (context.state.currentData.customData.memo !== "") {
         if (context.state.isNew) {
           context.commit("addOneMemo", obj);

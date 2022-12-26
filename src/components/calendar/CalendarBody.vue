@@ -5,6 +5,11 @@
       v-if="this.$store.state.isOpen"
     >
     </MemoModal>
+    <ScheduleList
+      @click.self="this.$store.state.isListModalOpen = false"
+      v-if="this.$store.state.isListModalOpen"
+    >
+    </ScheduleList>
     <v-calendar
       ref="calendar"
       class="custom-calendar max-w-full"
@@ -20,12 +25,15 @@
               this.$store.commit('showModal', { day, type: 'new' })
             "
             class="day-label text-sm text-gray-900"
-            :class="{
-              today:
-                day.date.toLocaleString().slice(0, 13) ===
-                new Date().toLocaleString().slice(0, 13),
-            }"
             >{{ day.day }}
+            <span
+              v-if="
+                day.date.toLocaleString().slice(0, 13) ===
+                new Date().toLocaleString().slice(0, 13)
+              "
+              class="text-xxs today"
+              ><i class="fa-solid fa-circle"></i
+            ></span>
           </span>
           <div class="flex-grow overflow-y-auto overflow-x-auto">
             <p
@@ -76,7 +84,9 @@
       <template v-slot:footer>
         <div class="bg-gray-100 text-center p-2 border-t rounded-b-lg">
           <ButtonTemplate @click="moveToToday">Today</ButtonTemplate>
-          <ButtonTemplate @click="showSchedulList">일정확인</ButtonTemplate>
+          <ButtonTemplate @click="this.$store.commit('showScheduleList')"
+            >일정확인</ButtonTemplate
+          >
         </div>
       </template>
     </v-calendar>
@@ -86,12 +96,14 @@
 <script>
 import { mapGetters } from "vuex";
 import MemoModal from "@/components/common/MemoModal.vue";
+import ScheduleList from "@/components/common/ScheduleList.vue";
 import ButtonTemplate from "@/components/templates/ButtonTemplate.vue";
 
 export default {
   components: {
     MemoModal,
     ButtonTemplate,
+    ScheduleList,
   },
   data() {
     return {
@@ -104,9 +116,6 @@ export default {
   methods: {
     moveToToday() {
       this.$refs.calendar.move(new Date());
-    },
-    showSchedulList() {
-      console.log("showList");
     },
   },
   computed: {
@@ -182,6 +191,6 @@ export default {
 }
 
 .today {
-  color: blue;
+  color: rgb(128, 255, 0);
 }
 </style>

@@ -61,15 +61,20 @@ export default createStore({
         state.currentData = JSON.parse(JSON.stringify(data));
       } else {
         // 새 메모 작성
-        state.currentData.customData.title = "";
-        state.currentData.customData.memo = "";
-        state.isNew = true;
-        state.currentData.customData.time = {
-          hours: "01",
-          minutes: "00",
-          ampm: "am",
-          alert: "none",
+        state.currentData = {
+          customData: {
+            createdAt: "",
+            memo: "",
+            title: "",
+            time: {
+              hours: "01",
+              minutes: "00",
+              ampm: "am",
+              alert: "none",
+            },
+          },
         };
+        state.isNew = true;
       }
       state.isOpen = true;
       const { day } = payload;

@@ -17,7 +17,7 @@
                 "
                 class="pl-2 text-sm font-semibold text-gray-900"
               >
-                {{ memo.dates.replaceAll("-", ". ") + "." }}
+                {{ formatDate(memo.dates) }}
                 {{ this.day[new Date(memo.dates).getDay()] }}
               </div>
               <div class="pl-2 text-sm flex">
@@ -39,7 +39,7 @@
                   <span> {{ memo.customData.title }} &nbsp; </span>
                 </div>
                 <div>
-                  <span class="text-xs text-right">
+                  <span class="text-xs text-right text-gray-500">
                     {{
                       memo.customData.time.hours !== "01" ||
                       memo.customData.time.minutes !== "00" ||
@@ -76,6 +76,7 @@
 <script>
 import { mapGetters } from "vuex";
 import ButtonTemplate from "@/components/templates/ButtonTemplate";
+import { formatDate } from "@/utils/formatDate";
 export default {
   components: {
     ButtonTemplate,
@@ -93,6 +94,9 @@ export default {
       ],
     };
   },
+  methods: {
+    formatDate,
+  },
   computed: {
     ...mapGetters(["storedMemoList"]),
   },
@@ -100,43 +104,6 @@ export default {
 </script>
 
 <style scoped>
-::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 7px;
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-  background-color: rgb(88, 33, 33, 0.7);
-}
-.modal-overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  z-index: 30;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-window {
-  background: #fff;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.modal-content {
-  padding: 15px 20px 10px;
-}
-
-.modal-footer {
-  background: #ccc;
-  padding: 10px;
-  text-align: right;
-}
-
 .alert {
   color: rgb(21, 166, 125);
 }

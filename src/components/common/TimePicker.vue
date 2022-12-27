@@ -8,7 +8,7 @@
           >
         </div>
         <div class="w-full text-sm text-right">
-          {{ this.$store.state.currentDate.id.replaceAll("-", ". ") + "." }}
+          {{ formatDate(this.$store.state.currentDate.id) }}
         </div>
       </div>
       <div class="flex w-full">
@@ -70,10 +70,13 @@
 
 <script>
 import { mapGetters } from "vuex";
-
+import { formatDate } from "@/utils/formatDate";
 export default {
   computed: {
     ...mapGetters(["storedCurrentData"]),
+  },
+  methods: {
+    formatDate,
   },
 };
 </script>

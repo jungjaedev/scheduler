@@ -44,7 +44,7 @@
               ]"
               class="relative cursor-pointer text-xs leading-tight rounded-sm p-1 mt-0 mb-1 bg-blue-500 text-white"
             >
-              <span class="">
+              <span>
                 {{ attr.customData.title }}
               </span>
               <span

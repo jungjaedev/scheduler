@@ -50,14 +50,8 @@ export default createStore({
   mutations: {
     showModal(state, payload) {
       if (payload.type !== "new") {
-        // 원래 메모 클릭
         state.isNew = false;
         let data = state.memoList.find((memo) => memo.key === payload.type);
-        /**
-         * - state.currentData = data;
-         * * v-model때문에 수정 중 캘린더에 보여지는 데이터까지 같이 수정됨..
-         * -> 깊은 복사를 통해 해결..
-         */
         state.currentData = JSON.parse(JSON.stringify(data));
       } else {
         // 새 메모 작성
@@ -90,6 +84,7 @@ export default createStore({
       // key 생성
       const keyArray = state.memoList.map((memo) => memo.key);
       let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
+
       const { memo, title, time } = state.currentData.customData;
       const obj = {
         key,

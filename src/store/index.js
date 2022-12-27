@@ -54,8 +54,6 @@ export default createStore({
         let data = state.memoList.find((memo) => memo.key === payload.type);
         state.currentData = JSON.parse(JSON.stringify(data));
       } else {
-        // 새 메모 작성
-        // currentData reset
         state.currentData = {
           customData: {
             createdAt: "",
@@ -81,7 +79,6 @@ export default createStore({
     },
     addOneMemo(state) {
       const createdAt = new Date().toLocaleString();
-      // key 생성
       const keyArray = state.memoList.map((memo) => memo.key);
       let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
 

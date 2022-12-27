@@ -18,11 +18,12 @@ const storage = {
 export default createStore({
   state() {
     return {
-      isOpen: false,
       memoList: storage.fetch(),
       currentDate: "",
+      isOpen: false,
       isNew: true,
       isEmpty: false,
+      isListModalOpen: false,
       currentData: {
         customData: {
           createdAt: "",
@@ -36,7 +37,6 @@ export default createStore({
           },
         },
       },
-      isListModalOpen: false,
     };
   },
   getters: {
@@ -55,12 +55,13 @@ export default createStore({
         let data = state.memoList.find((memo) => memo.key === payload.type);
         /**
          * - state.currentData = data;
-         * * v-model을 통해 양방향 바인딩되어 view에 보여지는 데이터까지 같이 변경됨..
+         * * v-model때문에 수정 중 캘린더에 보여지는 데이터까지 같이 수정됨..
          * -> 깊은 복사를 통해 해결..
          */
         state.currentData = JSON.parse(JSON.stringify(data));
       } else {
         // 새 메모 작성
+        // currentData reset
         state.currentData = {
           customData: {
             createdAt: "",
@@ -76,28 +77,28 @@ export default createStore({
         };
         state.isNew = true;
       }
-      state.isOpen = true;
       const { day } = payload;
       state.currentDate = day;
+      state.isOpen = true;
     },
     closeModal(state) {
       state.isOpen = false;
       state.isEmpty = false;
-      state.memoList = storage.fetch();
     },
-    addOneMemo(state, payload) {
-      const clickedDate = new Date().toLocaleString();
+    addOneMemo(state) {
+      const createdAt = new Date().toLocaleString();
+      // key 생성
       const keyArray = state.memoList.map((memo) => memo.key);
       let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
-
+      const { memo, title, time } = state.currentData.customData;
       const obj = {
         key,
         dates: state.currentDate.id,
         customData: {
-          createdAt: clickedDate,
-          memo: payload.newMemo,
-          title: payload.newTitle,
-          time: state.currentData.customData.time,
+          createdAt,
+          memo,
+          title,
+          time,
         },
       };
       if (!obj.customData.title) {
@@ -106,18 +107,11 @@ export default createStore({
       localStorage.setItem(key, JSON.stringify(obj));
       state.memoList.push(obj);
     },
-    editOneMemo(state, payload) {
-      const indexOfData = state.memoList.findIndex(
-        (memo) => memo.key === state.currentData.key
-      );
-      state.currentData.customData.memo = payload.newMemo;
-      state.currentData.customData.title = payload.newTitle;
+    editOneMemo(state) {
       localStorage.setItem(
         state.currentData.key,
         JSON.stringify(state.currentData)
       );
-      state.memoList[indexOfData].customData.memo = payload.newMemo;
-      state.memoList[indexOfData].customData.title = payload.newTitle;
     },
     removeOneMemo(state) {
       const indexOfData = state.memoList.findIndex(
@@ -127,38 +121,32 @@ export default createStore({
       state.memoList.splice(indexOfData, 1);
       state.currentData = {};
     },
-    fetchData(state) {
-      state.memoList = storage.fetch();
-    },
-    updateCurrentData(state, payload) {
-      const { type, value } = payload;
-      state.currentData.customData[type] = value;
-    },
     showScheduleList(state) {
       state.isListModalOpen = true;
+    },
+    fetchData(state) {
+      state.memoList = storage.fetch();
     },
   },
   actions: {
     removeMemo(context) {
       context.commit("removeOneMemo");
       context.commit("closeModal");
+      context.commit("fetchData");
     },
     addMemo(context) {
-      const obj = {
-        newMemo: context.state.currentData.customData.memo,
-        newTitle: context.state.currentData.customData.title,
-      };
-      if (context.state.currentData.customData.memo !== "") {
-        if (context.state.isNew) {
-          context.commit("addOneMemo", obj);
-        } else {
-          context.commit("editOneMemo", obj);
-        }
-        context.commit("closeModal");
-        context.commit("fetchData");
-      } else {
+      if (context.state.currentData.customData.memo === "") {
         context.state.isEmpty = true;
+        return;
       }
+
+      if (context.state.isNew) {
+        context.commit("addOneMemo");
+      } else {
+        context.commit("editOneMemo");
+      }
+      context.commit("closeModal");
+      context.commit("fetchData");
     },
   },
   modules: {},

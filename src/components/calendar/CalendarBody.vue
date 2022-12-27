@@ -1,20 +1,10 @@
 <template>
   <div class="text-center section">
-    <MemoModal
-      @click.self="this.$store.commit('closeModal')"
-      v-if="this.$store.state.isOpen"
-    >
-    </MemoModal>
-    <ScheduleList
-      @click.self="this.$store.state.isListModalOpen = false"
-      v-if="this.$store.state.isListModalOpen"
-    >
-    </ScheduleList>
     <v-calendar
       ref="calendar"
       class="custom-calendar max-w-full"
       :masks="masks"
-      :attributes="this.storedMemoList"
+      :attributes="storedMemoList"
       disable-page-swipe
       is-expanded
     >
@@ -95,15 +85,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import MemoModal from "@/components/common/MemoModal.vue";
-import ScheduleList from "@/components/common/ScheduleList.vue";
 import ButtonTemplate from "@/components/templates/ButtonTemplate.vue";
 
 export default {
   components: {
-    MemoModal,
     ButtonTemplate,
-    ScheduleList,
   },
   data() {
     return {

@@ -8,7 +8,7 @@
           >
         </div>
         <div class="w-full text-sm text-right">
-          {{ $store.state.currentDate.id.replaceAll("-", ". ") + "." }}
+          {{ this.$store.state.currentDate.id.replaceAll("-", ". ") + "." }}
         </div>
       </div>
       <div class="flex w-full">

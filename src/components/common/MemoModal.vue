@@ -37,7 +37,6 @@
         <div
           v-if="this.$store.state.isEmpty"
           class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-1"
-          role="alert"
         >
           <p>메모를 입력해주세요</p>
         </div>

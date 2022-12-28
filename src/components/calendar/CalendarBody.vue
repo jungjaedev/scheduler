@@ -106,11 +106,13 @@ export default {
 
 <style lang="postcss" scoped>
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 4px;
 }
+
 ::-webkit-scrollbar-track {
   display: none;
 }
+
 /deep/ .custom-calendar.vc-container {
   --day-border: 1px solid #b8c2cc;
   --day-border-highlight: 1px solid #b8c2cc;

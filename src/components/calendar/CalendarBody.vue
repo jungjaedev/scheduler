@@ -33,7 +33,11 @@
               "
               :key="attr.key"
               :class="[
-                { alert: attr.customData.time.alert !== 'none' },
+                {
+                  alert:
+                    attr.customData.time.alert !== 'none' &&
+                    !attr.customData.time.allDay,
+                },
                 {
                   timeset:
                     !attr.customData.time.allDay &&
@@ -56,7 +60,10 @@
                 }}
               </span>
               <span
-                v-if="attr.customData.time.alert !== 'none'"
+                v-if="
+                  attr.customData.time.alert !== 'none' &&
+                  !attr.customData.time.allDay
+                "
                 class="text-xxs inline-block absolute right-2"
               >
                 <i class="fa-regular fa-bell"></i>

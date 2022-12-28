@@ -2,7 +2,10 @@
   <transition name="modal" appear>
     <div class="modal modal-overlay">
       <div class="modal-window cursor-default">
-        <div class="modal-content overflow-y-scroll max-h-96 w-60">
+        <div
+          v-if="storedMemoList.length !== 0"
+          class="modal-content overflow-y-scroll max-h-96 w-60"
+        >
           <ul
             class="space-y-1 max-w-md list-inside"
             v-for="(memo, index) in storedMemoList"
@@ -62,6 +65,12 @@
               />
             </li>
           </ul>
+        </div>
+        <div
+          class="modal-content overflow-y-scroll text-sm max-h-96 w-60 h-40 flex justify-center items-center"
+          v-else
+        >
+          <div>저장된 메모가 없습니다.</div>
         </div>
         <footer class="modal-footer">
           <ButtonTemplate @click="this.$store.state.isListModalOpen = false"

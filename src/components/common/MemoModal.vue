@@ -48,6 +48,7 @@
             @click="removeMemo"
             >삭제</ButtonTemplate
           >
+          <div v-else></div>
           <div>
             <ButtonTemplate @click="addMemo"> 저장 </ButtonTemplate>
             <ButtonTemplate

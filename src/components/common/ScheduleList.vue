@@ -28,9 +28,7 @@
                       { alert: memo.customData.time.alert !== 'none' },
                       {
                         timeset:
-                          (memo.customData.time.hours !== '01' ||
-                            memo.customData.time.minutes !== '00' ||
-                            memo.customData.time.ampm !== 'am') &&
+                          !memo.customData.time.allDay &&
                           memo.customData.time.alert === 'none',
                       },
                     ]"
@@ -41,9 +39,7 @@
                 <div>
                   <span class="text-xs text-right text-gray-500">
                     {{
-                      memo.customData.time.hours !== "01" ||
-                      memo.customData.time.minutes !== "00" ||
-                      memo.customData.time.ampm !== "am"
+                      !memo.customData.time.allDay
                         ? memo.customData.time.hours +
                           ":" +
                           memo.customData.time.minutes

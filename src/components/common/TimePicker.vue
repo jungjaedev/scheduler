@@ -4,7 +4,7 @@
       <div class="flex">
         <div class="w-full text-sm text-left">
           <label class="block pl-1 mb-2 text-sm font-medium text-gray-900"
-            >알림 설정</label
+            >시간 설정</label
           >
         </div>
         <div class="w-full text-sm text-right">
@@ -12,8 +12,22 @@
         </div>
       </div>
       <div class="flex w-full">
+        <div class="w-1/4 flex items-center mx-1">
+          <input
+            id="default-checkbox"
+            type="checkbox"
+            v-model="storedCurrentData.customData.time.allDay"
+            class="w-4 mr-1 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+          <label
+            for="default-checkbox"
+            class="text-xs text-gray-900 dark:text-gray-300"
+            >하루종일
+          </label>
+        </div>
         <div class="w-1/5 mr-1">
           <select
+            :disabled="storedCurrentData.customData.time.allDay"
             name="hours"
             v-model="storedCurrentData.customData.time.hours"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
@@ -34,6 +48,7 @@
         </div>
         <div class="w-1/5 mx-1">
           <select
+            :disabled="storedCurrentData.customData.time.allDay"
             name="minutes"
             v-model="storedCurrentData.customData.time.minutes"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
@@ -44,6 +59,7 @@
         </div>
         <div class="w-1/4 mx-1">
           <select
+            :disabled="storedCurrentData.customData.time.allDay"
             name="ampm"
             v-model="storedCurrentData.customData.time.ampm"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
@@ -52,7 +68,14 @@
             <option value="pm">오후</option>
           </select>
         </div>
-        <div class="w-2/7 mx-1">
+      </div>
+      <div class="w-full pl-1 text-sm text-left">
+        <label class="block mb-2 text-sm font-medium text-gray-900"
+          >알림 설정</label
+        >
+      </div>
+      <div class="flex w-full">
+        <div class="w-2/7">
           <select
             name="alert"
             v-model="storedCurrentData.customData.time.alert"

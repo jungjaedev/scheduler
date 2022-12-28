@@ -36,9 +36,7 @@
                 { alert: attr.customData.time.alert !== 'none' },
                 {
                   timeset:
-                    (attr.customData.time.hours !== '01' ||
-                      attr.customData.time.minutes !== '00' ||
-                      attr.customData.time.ampm !== 'am') &&
+                    !attr.customData.time.allDay &&
                     attr.customData.time.alert === 'none',
                 },
               ]"
@@ -48,11 +46,7 @@
                 {{ attr.customData.title }}
               </span>
               <span
-                v-if="
-                  attr.customData.time.hours !== '01' ||
-                  attr.customData.time.minutes !== '00' ||
-                  attr.customData.time.ampm !== 'am'
-                "
+                v-if="!attr.customData.time.allDay"
                 class="text-xxs text-right inline-block w-10"
               >
                 {{

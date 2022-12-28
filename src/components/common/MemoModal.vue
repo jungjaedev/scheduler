@@ -41,14 +41,22 @@
           <p>메모를 입력해주세요</p>
         </div>
         <p v-else>&nbsp;</p>
-        <footer class="modal-footer">
-          <ButtonTemplate v-if="!this.$store.state.isNew" @click="removeMemo"
+        <footer class="modal-footer flex justify-between">
+          <ButtonTemplate
+            class="bg-red-500 hover:bg-red-700"
+            v-if="!this.$store.state.isNew"
+            @click="removeMemo"
             >삭제</ButtonTemplate
           >
-          <ButtonTemplate @click="addMemo"> 저장 </ButtonTemplate>
-          <ButtonTemplate @click="this.$store.commit('closeModal')">
-            닫기
-          </ButtonTemplate>
+          <div>
+            <ButtonTemplate @click="addMemo"> 저장 </ButtonTemplate>
+            <ButtonTemplate
+              class="text-blue-500 bg-white hover:bg-gray-200"
+              @click="this.$store.commit('closeModal')"
+            >
+              닫기
+            </ButtonTemplate>
+          </div>
         </footer>
       </div>
     </div>

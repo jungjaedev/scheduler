@@ -48,8 +48,11 @@
             @click="removeMemo"
             >삭제</ButtonTemplate
           >
+          <div v-else></div>
           <div>
-            <ButtonTemplate @click="addMemo"> 저장 </ButtonTemplate>
+            <ButtonTemplate class="hover:bg-blue-700" @click="addMemo">
+              저장
+            </ButtonTemplate>
             <ButtonTemplate
               class="text-blue-500 bg-white hover:bg-gray-200"
               @click="this.$store.commit('closeModal')"

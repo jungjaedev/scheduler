@@ -74,8 +74,12 @@
       </template>
       <template v-slot:footer>
         <div class="bg-gray-100 text-center p-2 border-t rounded-b-lg">
-          <ButtonTemplate @click="moveToToday">Today</ButtonTemplate>
-          <ButtonTemplate @click="this.$store.commit('showScheduleList')"
+          <ButtonTemplate class="hover:bg-blue-700" @click="moveToToday"
+            >Today</ButtonTemplate
+          >
+          <ButtonTemplate
+            class="hover:bg-blue-700"
+            @click="this.$store.commit('showScheduleList')"
             >일정확인</ButtonTemplate
           >
         </div>

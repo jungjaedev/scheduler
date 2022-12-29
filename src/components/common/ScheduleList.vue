@@ -11,7 +11,13 @@
             v-for="(memo, index) in storedMemoList"
             :key="memo.key"
           >
-            <li class="flex flex-col items-start">
+            <li
+              v-if="
+                Date.parse(new Date().toLocaleDateString()) <=
+                Date.parse(formatDate(memo.dates))
+              "
+              class="flex flex-col items-start"
+            >
               <div
                 v-if="
                   index === 0 ||

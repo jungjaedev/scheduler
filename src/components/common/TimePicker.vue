@@ -94,7 +94,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate } from "@/utils/filters";
 export default {
   computed: {
     ...mapGetters(["storedCurrentData"]),

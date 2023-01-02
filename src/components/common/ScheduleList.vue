@@ -6,70 +6,68 @@
           v-if="storedMemoList.length !== 0"
           class="modal-content overflow-y-scroll max-h-96 w-60"
         >
-          <ul
-            class="space-y-1 max-w-md list-inside"
-            v-for="(memo, index) in storedMemoList"
-            :key="memo.key"
-          >
-            <li
-              v-if="
-                Date.parse(new Date().toLocaleDateString()) <=
-                Date.parse(formatDate(memo.dates))
-              "
-              class="flex flex-col items-start"
-            >
-              <div
+          <ul class="space-y-1 max-w-md list-inside">
+            <template v-for="(memo, index) in storedMemoList" :key="memo.key">
+              <li
                 v-if="
-                  index === 0 ||
-                  storedMemoList[index].dates !==
-                    storedMemoList[index - 1].dates
+                  Date.parse(new Date().toLocaleDateString()) <=
+                  Date.parse(formatDate(memo.dates))
                 "
-                class="pl-2 text-sm font-semibold text-gray-900"
+                class="flex flex-col items-start"
               >
-                {{ formatDate(memo.dates) }}
-                {{ this.day[new Date(memo.dates).getDay()] }}
-              </div>
-              <div class="pl-2 text-sm flex">
-                <div>
-                  <span
-                    class="text-blue-500 text-xxs mr-1"
-                    :class="[
-                      {
-                        alert:
-                          memo.customData.time.alert !== 'none' &&
-                          !memo.customData.time.allDay,
-                      },
-                      {
-                        timeset:
-                          !memo.customData.time.allDay &&
-                          memo.customData.time.alert === 'none',
-                      },
-                    ]"
-                    ><i class="fa-solid fa-circle"></i
-                  ></span>
-                  <span> {{ memo.customData.title }} &nbsp; </span>
+                <div
+                  v-if="
+                    index === 0 ||
+                    storedMemoList[index].dates !==
+                      storedMemoList[index - 1].dates
+                  "
+                  class="pl-2 text-sm font-semibold text-gray-900"
+                >
+                  {{ formatDate(memo.dates) }}
+                  {{ this.day[new Date(memo.dates).getDay()] }}
                 </div>
-                <div>
-                  <span class="text-xs text-right text-gray-500">
-                    {{
-                      !memo.customData.time.allDay
-                        ? memo.customData.time.hours +
-                          ":" +
-                          memo.customData.time.minutes
-                        : null
-                    }}
-                  </span>
+                <div class="pl-2 text-sm flex">
+                  <div>
+                    <span
+                      class="text-blue-500 text-xxs mr-1"
+                      :class="[
+                        {
+                          alert:
+                            memo.customData.time.alert !== 'none' &&
+                            !memo.customData.time.allDay,
+                        },
+                        {
+                          timeset:
+                            !memo.customData.time.allDay &&
+                            memo.customData.time.alert === 'none',
+                        },
+                      ]"
+                      ><i class="fa-solid fa-circle"></i
+                    ></span>
+                    <span> {{ memo.customData.title }} &nbsp; </span>
+                  </div>
+                  <div>
+                    <span class="text-xs text-right text-gray-500">
+                      {{
+                        !memo.customData.time.allDay
+                          ? memo.customData.time.hours +
+                            ":" +
+                            memo.customData.time.minutes
+                          : null
+                      }}
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <hr
-                v-if="
-                  index !== storedMemoList.length - 1 &&
-                  storedMemoList[index].dates !==
-                    storedMemoList[index + 1].dates
-                "
-                class="my-2 mx-auto w-48 h-0.5 bg-gray-100 rounded border-0 dark:bg-gray-700"
-              />
-            </li>
+                <hr
+                  v-if="
+                    index !== storedMemoList.length - 1 &&
+                    storedMemoList[index].dates !==
+                      storedMemoList[index + 1].dates
+                  "
+                  class="my-2 mx-auto w-48 h-0.5 bg-gray-100 rounded border-0 dark:bg-gray-700"
+                />
+              </li>
+            </template>
           </ul>
         </div>
         <div
@@ -77,6 +75,11 @@
           v-else
         >
           <div>저장된 메모가 없습니다.</div>
+        </div>
+        <div
+          class="flex justify-center items-center text-sm underline text-blue-700"
+        >
+          <span class="cursor-pointer">이전 목록 불러오기</span>
         </div>
         <footer class="modal-footer">
           <ButtonTemplate @click="this.$store.state.isListModalOpen = false"
@@ -91,7 +94,7 @@
 <script>
 import { mapGetters } from "vuex";
 import ButtonTemplate from "@/components/templates/ButtonTemplate";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate } from "@/utils/filters";
 export default {
   components: {
     ButtonTemplate,

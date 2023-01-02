@@ -11,7 +11,6 @@
             <li
               v-for="(memo, index) in filteredMemoList"
               :key="memo.key"
-              ref="filteredMemoList"
               class="flex flex-col items-start"
             >
               <div
@@ -58,6 +57,7 @@
                 </div>
               </div>
               <hr
+                ref="filteredMemoList"
                 v-if="
                   index !== filteredMemoList.length - 1 &&
                   filteredMemoList[index].dates !==
@@ -133,7 +133,7 @@ export default {
         );
       });
 
-      this.$refs.filteredMemoList[todayIndex].scrollIntoView();
+      this.$refs.filteredMemoList[todayIndex - 1].scrollIntoView();
     },
   },
   computed: {

@@ -3,65 +3,69 @@
     <div class="modal modal-overlay">
       <div class="modal-window cursor-default">
         <div
+          :key="componentKey"
           v-if="storedMemoList.length !== 0"
           class="modal-content overflow-y-scroll max-h-96 w-60"
         >
-          <ul :key="componentKey" class="space-y-1 max-w-md list-inside">
-            <template v-for="(memo, index) in filteredMemoList" :key="memo.key">
-              <li class="flex flex-col items-start">
-                <div
-                  v-if="
-                    index === 0 ||
-                    filteredMemoList[index].dates !==
-                      filteredMemoList[index - 1].dates
-                  "
-                  class="pl-2 text-sm font-semibold text-gray-900"
-                >
-                  {{ formatDate(memo.dates) }}
-                  {{ this.day[new Date(memo.dates).getDay()] }}
+          <ul class="space-y-1 max-w-md list-inside">
+            <li
+              v-for="(memo, index) in filteredMemoList"
+              :key="memo.key"
+              ref="filteredMemoList"
+              class="flex flex-col items-start"
+            >
+              <div
+                v-if="
+                  index === 0 ||
+                  filteredMemoList[index].dates !==
+                    filteredMemoList[index - 1].dates
+                "
+                class="pl-2 text-sm font-semibold text-gray-900"
+              >
+                {{ formatDate(memo.dates) }}
+                {{ this.day[new Date(memo.dates).getDay()] }}
+              </div>
+              <div class="pl-2 text-sm flex">
+                <div>
+                  <span
+                    class="text-blue-500 text-xxs mr-1"
+                    :class="[
+                      {
+                        alert:
+                          memo.customData.time.alert !== 'none' &&
+                          !memo.customData.time.allDay,
+                      },
+                      {
+                        timeset:
+                          !memo.customData.time.allDay &&
+                          memo.customData.time.alert === 'none',
+                      },
+                    ]"
+                    ><i class="fa-solid fa-circle"></i
+                  ></span>
+                  <span> {{ memo.customData.title }} &nbsp; </span>
                 </div>
-                <div class="pl-2 text-sm flex">
-                  <div>
-                    <span
-                      class="text-blue-500 text-xxs mr-1"
-                      :class="[
-                        {
-                          alert:
-                            memo.customData.time.alert !== 'none' &&
-                            !memo.customData.time.allDay,
-                        },
-                        {
-                          timeset:
-                            !memo.customData.time.allDay &&
-                            memo.customData.time.alert === 'none',
-                        },
-                      ]"
-                      ><i class="fa-solid fa-circle"></i
-                    ></span>
-                    <span> {{ memo.customData.title }} &nbsp; </span>
-                  </div>
-                  <div>
-                    <span class="text-xs text-right text-gray-500">
-                      {{
-                        !memo.customData.time.allDay
-                          ? memo.customData.time.hours +
-                            ":" +
-                            memo.customData.time.minutes
-                          : null
-                      }}
-                    </span>
-                  </div>
+                <div>
+                  <span class="text-xs text-right text-gray-500">
+                    {{
+                      !memo.customData.time.allDay
+                        ? memo.customData.time.hours +
+                          ":" +
+                          memo.customData.time.minutes
+                        : null
+                    }}
+                  </span>
                 </div>
-                <hr
-                  v-if="
-                    index !== filteredMemoList.length - 1 &&
-                    filteredMemoList[index].dates !==
-                      filteredMemoList[index + 1].dates
-                  "
-                  class="my-2 mx-auto w-48 h-0.5 bg-gray-100 rounded border-0 dark:bg-gray-700"
-                />
-              </li>
-            </template>
+              </div>
+              <hr
+                v-if="
+                  index !== filteredMemoList.length - 1 &&
+                  filteredMemoList[index].dates !==
+                    filteredMemoList[index + 1].dates
+                "
+                class="my-2 mx-auto w-48 h-0.5 bg-gray-100 rounded border-0 dark:bg-gray-700"
+              />
+            </li>
           </ul>
         </div>
         <div
@@ -94,6 +98,7 @@
 import { mapGetters } from "vuex";
 import ButtonTemplate from "@/components/templates/ButtonTemplate";
 import { formatDate } from "@/utils/filters";
+
 export default {
   components: {
     ButtonTemplate,
@@ -118,6 +123,17 @@ export default {
     showAllLists() {
       this.isShowAllMemo = true;
       this.componentKey++;
+      this.$nextTick(() => this.scrollToToday());
+    },
+    scrollToToday() {
+      const todayIndex = this.filteredMemoList.findIndex((memo) => {
+        return (
+          Date.parse(formatDate(memo.dates)) ===
+          Date.parse(new Date().toLocaleDateString())
+        );
+      });
+
+      this.$refs.filteredMemoList[todayIndex].scrollIntoView();
     },
   },
   computed: {

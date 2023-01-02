@@ -21,6 +21,7 @@ export default createStore({
             ampm: "am",
             alert: "none",
             allDay: true,
+            repeat: "none",
           },
         },
       },
@@ -38,7 +39,7 @@ export default createStore({
     showModal(state, payload) {
       if (payload.type !== "new") {
         state.isNew = false;
-        let data = state.memoList.find((memo) => memo.key === payload.type);
+        const data = state.memoList.find((memo) => memo.key === payload.type);
         state.currentData = JSON.parse(JSON.stringify(data));
       } else {
         state.currentData = {
@@ -52,6 +53,7 @@ export default createStore({
               ampm: "am",
               alert: "none",
               allDay: true,
+              repeat: "none",
             },
           },
         };

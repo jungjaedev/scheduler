@@ -17,7 +17,7 @@
 <script>
 import CalendarBody from "@/components/calendar/CalendarBody.vue";
 import MemoModal from "@/components/common/MemoModal.vue";
-import ScheduleList from "@/components/common/ScheduleList.vue";
+import ScheduleList from "@/components/modal/ScheduleList.vue";
 
 export default {
   components: {

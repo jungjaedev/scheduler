@@ -69,9 +69,12 @@
           </select>
         </div>
       </div>
-      <div class="w-full pl-1 text-sm text-left">
+      <div class="w-full flex pl-1 text-sm text-left mt-2">
         <label class="block mb-2 text-sm font-medium text-gray-900"
           >알림 설정</label
+        >
+        <label class="block mb-2 ml-9 text-sm font-medium text-gray-900"
+          >반복 설정</label
         >
       </div>
       <div class="flex w-full">
@@ -85,6 +88,20 @@
             <option value="none">없음</option>
             <option value="5">5분전</option>
             <option value="10">30분전</option>
+          </select>
+        </div>
+        <div class="w-2/7 ml-4">
+          <select
+            name="alert"
+            :disabled="storedCurrentData.customData.time.allDay"
+            v-model="storedCurrentData.customData.time.repeat"
+            class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
+          >
+            <option value="none">없음</option>
+            <option value="daily">매일</option>
+            <option value="weekly">매주</option>
+            <option value="monthly">매월</option>
+            <option value="annually">매년</option>
           </select>
         </div>
       </div>

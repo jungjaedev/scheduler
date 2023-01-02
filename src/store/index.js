@@ -21,6 +21,7 @@ export default createStore({
             ampm: "am",
             alert: "none",
             allDay: true,
+            repeat: "none",
           },
         },
       },
@@ -52,6 +53,7 @@ export default createStore({
               ampm: "am",
               alert: "none",
               allDay: true,
+              repeat: "none",
             },
           },
         };

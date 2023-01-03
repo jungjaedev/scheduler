@@ -144,8 +144,9 @@ export default {
           Date.parse(new Date().toLocaleDateString())
         );
       });
-
-      this.$refs.filteredMemoList[todayIndex - 1].scrollIntoView();
+      if (todayIndex > 0) {
+        this.$refs.filteredMemoList[todayIndex - 1].scrollIntoView();
+      }
     },
   },
   computed: {

@@ -19,13 +19,13 @@
                   filteredMemoList[index].dates !==
                     filteredMemoList[index - 1].dates
                 "
-                class="pl-2 text-sm font-semibold text-gray-900"
+                class="pl-2 text-sm text-gray-700"
               >
                 {{ formatDate(memo.dates) }}
                 {{ this.day[new Date(memo.dates).getDay()] }}
               </div>
               <div class="pl-2 text-sm flex">
-                <div>
+                <div class="flex items-center content-center">
                   <span
                     class="text-blue-500 text-xxs mr-1"
                     :class="[
@@ -42,7 +42,9 @@
                     ]"
                     ><i class="fa-solid fa-circle"></i
                   ></span>
-                  <span> {{ memo.customData.title }} &nbsp; </span>
+                  <span class="text-base">
+                    {{ memo.customData.title }} &nbsp;
+                  </span>
                 </div>
                 <div>
                   <span class="text-xs text-right text-gray-500">
@@ -57,13 +59,13 @@
                 </div>
               </div>
               <hr
-                ref="filteredMemoList"
                 v-if="
                   index !== filteredMemoList.length - 1 &&
                   filteredMemoList[index].dates !==
                     filteredMemoList[index + 1].dates
                 "
-                class="my-2 mx-auto w-48 h-0.5 bg-gray-100 rounded border-0 dark:bg-gray-700"
+                ref="filteredMemoList"
+                class="mt-1 mx-auto w-48 h-0.5 bg-gray-100 rounded border-0"
               />
             </li>
           </ul>

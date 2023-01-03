@@ -13,16 +13,26 @@
               :key="memo.key"
               class="flex flex-col items-start"
             >
-              <div
-                v-if="
-                  index === 0 ||
-                  filteredMemoList[index].dates !==
-                    filteredMemoList[index - 1].dates
-                "
-                class="pl-2 text-sm text-gray-700"
-              >
-                {{ formatDate(memo.dates) }}
-                {{ this.day[new Date(memo.dates).getDay()] }}
+              <div clss="flex flex-row w-full">
+                <span
+                  v-if="
+                    index === 0 ||
+                    filteredMemoList[index].dates !==
+                      filteredMemoList[index - 1].dates
+                  "
+                  class="pl-2 text-sm text-gray-700"
+                >
+                  {{ formatDate(memo.dates) }}
+                  {{ this.day[new Date(memo.dates).getDay()] }}
+                </span>
+                <span
+                  v-if="
+                    Date.parse(formatDate(memo.dates)) ===
+                    Date.parse(new Date().toLocaleDateString())
+                  "
+                  class="text-right today text-xxs"
+                  ><i class="fa-solid fa-circle"></i
+                ></span>
               </div>
               <div class="pl-2 text-sm flex">
                 <div class="flex items-center content-center">

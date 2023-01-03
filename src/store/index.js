@@ -21,7 +21,12 @@ export default createStore({
             ampm: "am",
             alert: "none",
             allDay: true,
-            repeat: "none",
+          },
+          repeat: {
+            term: "none",
+            type: "none",
+            endDate: "",
+            endNumber: "1",
           },
         },
       },
@@ -53,7 +58,12 @@ export default createStore({
               ampm: "am",
               alert: "none",
               allDay: true,
-              repeat: "none",
+            },
+            repeat: {
+              term: "none",
+              type: "none",
+              endDate: "",
+              endNumber: "1",
             },
           },
         };
@@ -72,7 +82,7 @@ export default createStore({
       const keyArray = state.memoList.map((memo) => memo.key);
       let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
 
-      const { memo, title, time } = state.currentData.customData;
+      const { memo, title, time, repeat } = state.currentData.customData;
       const obj = {
         key,
         dates: state.currentDate.id,
@@ -81,6 +91,7 @@ export default createStore({
           memo,
           title,
           time,
+          repeat,
         },
       };
       if (!obj.customData.title) {

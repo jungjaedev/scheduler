@@ -89,14 +89,14 @@
         </div>
       </div>
       <div class="w-full flex pl-1 text-sm text-left mt-2">
-        <div class="w-2/7 mr-1">
+        <div class="w-3/12 mr-1">
           <label class="block mb-2 text-sm font-medium text-gray-900"
             >반복 설정</label
           >
           <select
             name="alert"
             :disabled="storedCurrentData.customData.time.allDay"
-            v-model="storedCurrentData.customData.time.repeat"
+            v-model="storedCurrentData.customData.repeat.term"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
           >
             <option value="none">없음</option>
@@ -105,6 +105,52 @@
             <option value="monthly">매월</option>
             <option value="annually">매년</option>
           </select>
+        </div>
+        <div class="w-3/12 mr-1">
+          <label class="block mb-2 text-sm font-medium text-gray-900"
+            >반복 종료</label
+          >
+          <select
+            name="alert"
+            :disabled="storedCurrentData.customData.time.allDay"
+            v-model="storedCurrentData.customData.repeat.type"
+            class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
+          >
+            <option value="none">안함</option>
+            <option value="number">횟수</option>
+            <option value="date">날짜</option>
+          </select>
+        </div>
+        <div
+          v-if="storedCurrentData.customData.repeat.type === 'date'"
+          class="w-6/12"
+        >
+          <label class="block mb-2.5 text-sm font-medium text-gray-900"
+            >종료 날짜</label
+          >
+          <v-date-picker v-model="storedCurrentData.customData.repeat.endDate">
+            <template v-slot="{ inputValue, inputEvents }">
+              <input
+                class="px-2 py-1 w-4/5 border rounded focus:outline-none focus:border-blue-300"
+                :value="inputValue"
+                v-on="inputEvents"
+                placeholder="Select a date"
+              />
+            </template>
+          </v-date-picker>
+        </div>
+        <div
+          v-if="storedCurrentData.customData.repeat.type === 'number'"
+          class="w-6/12"
+        >
+          <label class="block mb-2.5 text-sm font-medium text-gray-900"
+            >종료 횟수</label
+          >
+          <input
+            type="number"
+            class="px-2 py-1 w-3/5 border rounded focus:outline-none focus:border-blue-300"
+            v-model="storedCurrentData.customData.repeat.endNumber"
+          />
         </div>
       </div>
     </div>
@@ -117,9 +163,19 @@ import { formatDate } from "@/utils/filters";
 export default {
   computed: {
     ...mapGetters(["storedCurrentData"]),
+    endRepeatNumber() {
+      return this.storedCurrentData.customData.repeat.endNumber;
+    },
   },
   methods: {
     formatDate,
+  },
+  watch: {
+    endRepeatNumber(value) {
+      if (value > 1000) {
+        this.storedCurrentData.customData.repeat.endNumber = 999;
+      }
+    },
   },
 };
 </script>

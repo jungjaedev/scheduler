@@ -89,7 +89,7 @@
         </div>
       </div>
       <div class="w-full flex pl-1 text-sm text-left mt-2">
-        <div class="w-3/12 mr-1">
+        <div class="w-3/12 mr-2">
           <label class="block mb-2 text-sm font-medium text-gray-900"
             >반복 설정</label
           >
@@ -106,7 +106,7 @@
             <option value="annually">매년</option>
           </select>
         </div>
-        <div class="w-3/12 mr-1">
+        <div class="w-3/12 mr-2">
           <label class="block mb-2 text-sm font-medium text-gray-900"
             >종료 설정</label
           >
@@ -134,6 +134,10 @@
           <v-date-picker v-model="storedCurrentData.customData.repeat.endDate">
             <template v-slot="{ inputValue, inputEvents }">
               <input
+                :disabled="
+                  storedCurrentData.customData.time.allDay ||
+                  storedCurrentData.customData.repeat.term === 'none'
+                "
                 class="px-2 py-1 w-4/5 border rounded focus:outline-none focus:border-blue-300"
                 :value="inputValue"
                 v-on="inputEvents"
@@ -150,6 +154,10 @@
             >반복 횟수</label
           >
           <input
+            :disabled="
+              storedCurrentData.customData.time.allDay ||
+              storedCurrentData.customData.repeat.term === 'none'
+            "
             type="number"
             class="px-2 py-1 w-3/5 border rounded focus:outline-none focus:border-blue-300"
             v-model="storedCurrentData.customData.repeat.endNumber"

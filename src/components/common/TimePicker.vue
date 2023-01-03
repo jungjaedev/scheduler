@@ -108,11 +108,14 @@
         </div>
         <div class="w-3/12 mr-1">
           <label class="block mb-2 text-sm font-medium text-gray-900"
-            >반복 종료</label
+            >종료 설정</label
           >
           <select
             name="alert"
-            :disabled="storedCurrentData.customData.time.allDay"
+            :disabled="
+              storedCurrentData.customData.time.allDay ||
+              storedCurrentData.customData.repeat.term === 'none'
+            "
             v-model="storedCurrentData.customData.repeat.type"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
           >
@@ -144,7 +147,7 @@
           class="w-6/12"
         >
           <label class="block mb-2.5 text-sm font-medium text-gray-900"
-            >종료 횟수</label
+            >반복 횟수</label
           >
           <input
             type="number"
@@ -172,8 +175,11 @@ export default {
   },
   watch: {
     endRepeatNumber(value) {
-      if (value > 1000) {
+      if (value > 999) {
         this.storedCurrentData.customData.repeat.endNumber = 999;
+      }
+      if (value < 1) {
+        this.storedCurrentData.customData.repeat.endNumber = 1;
       }
     },
   },

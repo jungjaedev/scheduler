@@ -40,3 +40,7 @@ background: #ccc;
 padding: 10px;
 text-align: right;
 }
+
+.today {
+    color: rgb(128, 255, 0);
+  }

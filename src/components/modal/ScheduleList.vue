@@ -130,7 +130,7 @@ export default {
     scrollToToday() {
       const todayIndex = this.filteredMemoList.findIndex((memo) => {
         return (
-          Date.parse(formatDate(memo.dates)) ===
+          Date.parse(formatDate(memo.dates)) >=
           Date.parse(new Date().toLocaleDateString())
         );
       });

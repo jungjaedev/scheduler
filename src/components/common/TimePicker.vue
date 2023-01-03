@@ -73,9 +73,6 @@
         <label class="block mb-2 text-sm font-medium text-gray-900"
           >알림 설정</label
         >
-        <label class="block mb-2 ml-9 text-sm font-medium text-gray-900"
-          >반복 설정</label
-        >
       </div>
       <div class="flex w-full">
         <div class="w-2/7">
@@ -90,7 +87,12 @@
             <option value="10">30분전</option>
           </select>
         </div>
-        <div class="w-2/7 ml-4">
+      </div>
+      <div class="w-full flex pl-1 text-sm text-left mt-2">
+        <div class="w-2/7 mr-1">
+          <label class="block mb-2 text-sm font-medium text-gray-900"
+            >반복 설정</label
+          >
           <select
             name="alert"
             :disabled="storedCurrentData.customData.time.allDay"

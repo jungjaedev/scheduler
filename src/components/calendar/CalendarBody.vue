@@ -182,8 +182,4 @@ export default {
 .timeset {
   background-color: rgb(230, 173, 0);
 }
-
-.today {
-  color: rgb(128, 255, 0);
-}
 </style>

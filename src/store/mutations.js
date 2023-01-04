@@ -1,5 +1,6 @@
 import { addDays, getRangeOfDays } from "@/utils/repeat";
 import { storage } from "@/utils/storage";
+import { storedMemoList } from "./getters";
 
 const showModal = (state, payload) => {
   if (payload.type !== "new") {
@@ -107,8 +108,16 @@ const removeOneMemo = (state) => {
 };
 
 const removeRepeatMemo = (state) => {
-  console.log(state.currentData.customData.repeat.groupId);
-  // 키가 더 큰 것 중에 같은 그룹 id를 가지고 있는 memo
+  for (let i = 0; i < state.memoList.length; i++) {
+    if (
+      state.currentData.dates <= state.memoList[i].dates &&
+      state.currentData.customData.repeat.groupId ===
+        state.memoList[i].customData.repeat.groupId
+    ) {
+      localStorage.removeItem(state.memoList[i].key);
+    }
+  }
+  state.currentData = {};
 };
 
 const showScheduleList = (state) => {

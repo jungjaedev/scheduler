@@ -4,7 +4,7 @@
       <div class="modal-window">
         <div class="modal-content w-80 flex flex-col">
           <ButtonTemplate
-            @click="this.$store.commit('removeRepeatMemo')"
+            @click="removeRepeatMemo"
             class="bg-orange-500 my-2 hover:bg-orange-700 rounded-full"
           >
             이후 모든 메모 삭제
@@ -36,7 +36,7 @@ export default {
     ButtonTemplate,
   },
   methods: {
-    ...mapActions(["removeMemo"]),
+    ...mapActions(["removeMemo", "removeRepeatMemo"]),
     deleteOneMemo() {
       this.$store.state.isRepeatModalOpen = false;
       this.removeMemo();

@@ -45,7 +45,7 @@
           <ButtonTemplate
             class="bg-red-500 hover:bg-red-700"
             v-if="!this.$store.state.isNew"
-            @click="removeMemo"
+            @click="checkRepeat()"
             >삭제</ButtonTemplate
           >
           <div v-else></div>
@@ -81,6 +81,14 @@ export default {
   },
   methods: {
     ...mapActions(["removeMemo", "addMemo"]),
+    checkRepeat() {
+      if (!this.storedCurrentData.customData.repeat.isRepeat) {
+        this.removeMemo();
+      } else {
+        this.$store.state.isRepeatModalOpen = true;
+        this.$store.commit("closeModal");
+      }
+    },
   },
 };
 </script>

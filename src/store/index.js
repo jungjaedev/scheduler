@@ -13,6 +13,7 @@ export default createStore({
       isNew: true,
       isEmpty: false,
       isListModalOpen: false,
+      isRepeatModalOpen: false,
       currentData: {
         customData: {
           createdAt: "",

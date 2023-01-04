@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import { storage } from "@/utils/storage";
+import { addDays } from "@/utils/repeat";
 
 export default createStore({
   state() {
@@ -81,8 +82,18 @@ export default createStore({
       const createdAt = new Date().toLocaleString();
       const keyArray = state.memoList.map((memo) => memo.key);
       let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
+      const repeatGroupIdArray = state.memoList.map(
+        (memo) => memo.customData.repeat.groupId
+      );
+      let repeatGroupId =
+        repeatGroupIdArray.length === 0
+          ? 1
+          : Math.max(...repeatGroupIdArray) + 1;
 
       const { memo, title, time, repeat } = state.currentData.customData;
+
+      repeat.isRepeat = repeat.term === "none" ? false : true;
+      repeat.groupId = repeatGroupId;
       const obj = {
         key,
         dates: state.currentDate.id,
@@ -97,8 +108,23 @@ export default createStore({
       if (!obj.customData.title) {
         obj.customData.title = "새로운 이벤트";
       }
+
       localStorage.setItem(key, JSON.stringify(obj));
       state.memoList.push(obj);
+      if (repeat.isRepeat) {
+        if (repeat.term === "daily") {
+          if (repeat.type === "number") {
+            const newObj = { ...obj };
+            for (let i = 0; i < Number(repeat.repeatCount) - 1; i++) {
+              newObj.key++;
+              let myDate = new Date(newObj.dates);
+              newObj.dates = addDays(myDate, 1);
+              localStorage.setItem(newObj.key, JSON.stringify(newObj));
+              state.memoList.push(newObj);
+            }
+          }
+        }
+      }
     },
     editOneMemo(state) {
       localStorage.setItem(

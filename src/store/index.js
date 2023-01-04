@@ -26,7 +26,7 @@ export default createStore({
             term: "none",
             type: "none",
             endDate: "",
-            endNumber: "1",
+            repeatCount: "1",
           },
         },
       },
@@ -63,7 +63,7 @@ export default createStore({
               term: "none",
               type: "none",
               endDate: "",
-              endNumber: "1",
+              repeatCount: "1",
             },
           },
         };

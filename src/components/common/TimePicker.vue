@@ -160,7 +160,7 @@
             "
             type="number"
             class="px-2 py-1 w-3/5 border rounded focus:outline-none focus:border-blue-300"
-            v-model="storedCurrentData.customData.repeat.endNumber"
+            v-model="storedCurrentData.customData.repeat.repeatCount"
           />
         </div>
       </div>
@@ -175,7 +175,7 @@ export default {
   computed: {
     ...mapGetters(["storedCurrentData"]),
     endRepeatNumber() {
-      return this.storedCurrentData.customData.repeat.endNumber;
+      return this.storedCurrentData.customData.repeat.repeatCount;
     },
   },
   methods: {
@@ -184,10 +184,10 @@ export default {
   watch: {
     endRepeatNumber(value) {
       if (value > 999) {
-        this.storedCurrentData.customData.repeat.endNumber = 999;
+        this.storedCurrentData.customData.repeat.repeatCount = 999;
       }
       if (value < 1) {
-        this.storedCurrentData.customData.repeat.endNumber = 1;
+        this.storedCurrentData.customData.repeat.repeatCount = 1;
       }
     },
   },

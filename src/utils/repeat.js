@@ -7,6 +7,5 @@ export const getRangeOfDays = (currentDate, endDate) => {
 
   const firstDate = new Date(currentDate);
   const secondDate = new Date(endDate);
-  console.log(firstDate, secondDate);
   return Math.round(Math.abs((firstDate - secondDate) / oneDay));
 };

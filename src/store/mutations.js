@@ -106,6 +106,11 @@ const removeOneMemo = (state) => {
   state.currentData = {};
 };
 
+const removeRepeatMemo = (state) => {
+  console.log(state.currentData.customData.repeat.groupId);
+  // 키가 더 큰 것 중에 같은 그룹 id를 가지고 있는 memo
+};
+
 const showScheduleList = (state) => {
   state.isListModalOpen = true;
 };
@@ -122,4 +127,5 @@ export {
   showModal,
   closeModal,
   showScheduleList,
+  removeRepeatMemo,
 };

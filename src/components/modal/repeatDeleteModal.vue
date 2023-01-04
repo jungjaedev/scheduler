@@ -4,11 +4,13 @@
       <div class="modal-window">
         <div class="modal-content w-80 flex flex-col">
           <ButtonTemplate
+            @click="this.$store.commit('removeRepeatMemo')"
             class="bg-orange-500 my-2 hover:bg-orange-700 rounded-full"
           >
             이후 모든 메모 삭제
           </ButtonTemplate>
           <ButtonTemplate
+            @click="deleteOneMemo()"
             class="text-blue-500 bg-gray-200 my-2 hover:bg-gray-300 rounded-full"
           >
             이 메모만 삭제
@@ -26,11 +28,19 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import ButtonTemplate from "@/components/templates/ButtonTemplate.vue";
 
 export default {
   components: {
     ButtonTemplate,
+  },
+  methods: {
+    ...mapActions(["removeMemo"]),
+    deleteOneMemo() {
+      this.$store.state.isRepeatModalOpen = false;
+      this.removeMemo();
+    },
   },
 };
 </script>

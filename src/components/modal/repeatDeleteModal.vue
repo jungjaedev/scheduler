@@ -1,0 +1,38 @@
+<template>
+  <transition name="modal" appear>
+    <div class="modal modal-overlay">
+      <div class="modal-window">
+        <div class="modal-content w-80 flex flex-col">
+          <ButtonTemplate
+            class="bg-orange-500 my-2 hover:bg-orange-700 rounded-full"
+          >
+            이후 모든 메모 삭제
+          </ButtonTemplate>
+          <ButtonTemplate
+            class="text-blue-500 bg-gray-200 my-2 hover:bg-gray-300 rounded-full"
+          >
+            이 메모만 삭제
+          </ButtonTemplate>
+          <ButtonTemplate
+            @click="this.$store.state.isRepeatModalOpen = false"
+            class="text-blue-500 bg-gray-200 my-2 mt-4 hover:bg-gray-300 rounded-full"
+          >
+            닫기
+          </ButtonTemplate>
+        </div>
+      </div>
+    </div>
+  </transition>
+</template>
+
+<script>
+import ButtonTemplate from "@/components/templates/ButtonTemplate.vue";
+
+export default {
+  components: {
+    ButtonTemplate,
+  },
+};
+</script>
+
+<style></style>

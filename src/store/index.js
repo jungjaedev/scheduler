@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import { storage } from "@/utils/storage";
-import { addDays } from "@/utils/repeat";
+import { addDays, getRangeOfDays } from "@/utils/repeat";
 
 export default createStore({
   state() {
@@ -113,15 +113,19 @@ export default createStore({
       state.memoList.push(obj);
       if (repeat.isRepeat) {
         if (repeat.term === "daily") {
-          if (repeat.type === "number") {
-            const newObj = { ...obj };
-            for (let i = 0; i < Number(repeat.repeatCount) - 1; i++) {
-              newObj.key++;
-              let myDate = new Date(newObj.dates);
-              newObj.dates = addDays(myDate, 1);
-              localStorage.setItem(newObj.key, JSON.stringify(newObj));
-              state.memoList.push(newObj);
-            }
+          const newObj = { ...obj };
+          const repeatNum =
+            repeat.type === "number"
+              ? Number(repeat.repeatCount) - 1
+              : repeat.type === "date"
+              ? getRangeOfDays(newObj.dates, repeat.endDate)
+              : 365;
+          for (let i = 0; i < repeatNum; i++) {
+            newObj.key++;
+            let myDate = new Date(newObj.dates);
+            newObj.dates = addDays(myDate, 1).toISOString().split("T")[0];
+            localStorage.setItem(newObj.key, JSON.stringify(newObj));
+            state.memoList.push(newObj);
           }
         }
       }

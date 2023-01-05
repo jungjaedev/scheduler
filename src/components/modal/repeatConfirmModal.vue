@@ -4,7 +4,7 @@
       <div class="modal-window">
         <div class="modal-content w-80 flex flex-col">
           <ButtonTemplate
-            @click="removeRepeatMemo"
+            @click="allRepeatMemoControl()"
             class="bg-orange-500 my-2 hover:bg-orange-700 rounded-full"
           >
             이후 모든 메모 {{ editOrDelete }}
@@ -51,9 +51,13 @@ export default {
       }
       this.$store.state.isRepeatConfirmModalOpen = false;
     },
-    // repeatMemoControl() {
-
-    // }
+    allRepeatMemoControl() {
+      if (this.$store.state.confirmModalType === "delete") {
+        this.removeRepeatMemo();
+      } else if (this.$store.state.confirmModalType === "edit") {
+        console.log("edit");
+      }
+    },
   },
 };
 </script>

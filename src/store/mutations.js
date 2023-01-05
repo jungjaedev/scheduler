@@ -1,6 +1,5 @@
-import { addDays, getRangeOfDays } from "@/utils/repeat";
+import { addDays, getRangeOfDays, compareDates } from "@/utils/repeat";
 import { storage } from "@/utils/storage";
-import { storedMemoList } from "./getters";
 
 const showModal = (state, payload) => {
   if (payload.type !== "new") {
@@ -42,8 +41,10 @@ const closeModal = (state) => {
 
 const addOneMemo = (state) => {
   const createdAt = new Date().toLocaleString();
+
   const keyArray = state.memoList.map((memo) => memo.key);
   let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
+
   const repeatGroupIdArray = state.memoList.map(
     (memo) => memo.customData.repeat.groupId
   );
@@ -74,12 +75,18 @@ const addOneMemo = (state) => {
   if (repeat.isRepeat) {
     if (repeat.term === "daily") {
       const newObj = { ...obj };
-      const repeatNum =
-        repeat.type === "number"
-          ? Number(repeat.repeatCount) - 1
-          : repeat.type === "date"
-          ? getRangeOfDays(newObj.dates, repeat.endDate)
-          : 365;
+
+      let repeatNum = 365;
+      if (repeat.type === "number") {
+        repeatNum = Number(repeat.repeatCount) - 1;
+      } else if (repeat.type === "date") {
+        if (compareDates(newObj.dates, repeat.endDate) === true) {
+          repeatNum = getRangeOfDays(newObj.dates, repeat.endDate);
+        } else {
+          repeatNum = 0;
+        }
+      }
+
       for (let i = 0; i < repeatNum; i++) {
         newObj.key++;
         let myDate = new Date(newObj.dates);

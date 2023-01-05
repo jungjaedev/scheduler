@@ -85,7 +85,7 @@ export default {
       if (!this.storedCurrentData.customData.repeat.isRepeat) {
         this.removeMemo();
       } else {
-        this.$store.state.isRepeatModalOpen = true;
+        this.$store.state.isRepeatConfirmModalOpen = true;
         this.$store.commit("closeModal");
       }
     },

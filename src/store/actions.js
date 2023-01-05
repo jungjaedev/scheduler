@@ -7,7 +7,7 @@ const removeMemo = (context) => {
 const removeRepeatMemo = (context) => {
   context.commit("removeRepeatMemo");
   context.commit("fetchData");
-  context.state.isRepeatModalOpen = false;
+  context.state.isRepeatConfirmModalOpen = false;
 };
 
 const addMemo = (context) => {

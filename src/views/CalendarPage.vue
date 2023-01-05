@@ -2,7 +2,7 @@
   <div>
     <MemoModal
       @click.self="this.$store.commit('closeModal')"
-      v-if="this.$store.state.isOpen"
+      v-if="this.$store.state.isMemoModalOpen"
     >
     </MemoModal>
     <ScheduleList
@@ -11,8 +11,8 @@
     >
     </ScheduleList>
     <ModalTemplate
-      @click.self="this.$store.state.isRepeatModalOpen = false"
-      v-if="this.$store.state.isRepeatModalOpen"
+      @click.self="this.$store.state.isRepeatConfirmModalOpen = false"
+      v-if="this.$store.state.isRepeatConfirmModalOpen"
     ></ModalTemplate>
     <CalendarBody />
   </div>
@@ -21,7 +21,7 @@
 <script>
 import CalendarBody from "@/components/calendar/CalendarBody.vue";
 import MemoModal from "@/components/common/MemoModal.vue";
-import ModalTemplate from "@/components/modal/repeatDeleteModal.vue";
+import ModalTemplate from "@/components/modal/repeatConfirmModal.vue";
 import ScheduleList from "@/components/modal/ScheduleList.vue";
 
 export default {

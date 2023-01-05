@@ -16,7 +16,7 @@
             이 메모만 삭제
           </ButtonTemplate>
           <ButtonTemplate
-            @click="this.$store.state.isRepeatModalOpen = false"
+            @click="this.$store.state.isRepeatConfirmModalOpen = false"
             class="text-blue-500 bg-gray-200 my-2 mt-4 hover:bg-gray-300 rounded-full"
           >
             닫기
@@ -38,7 +38,7 @@ export default {
   methods: {
     ...mapActions(["removeMemo", "removeRepeatMemo"]),
     deleteOneMemo() {
-      this.$store.state.isRepeatModalOpen = false;
+      this.$store.state.isRepeatConfirmModalOpen = false;
       this.removeMemo();
     },
   },

@@ -163,6 +163,15 @@
             v-model="storedCurrentData.customData.repeat.repeatCount"
           />
         </div>
+        <div
+          v-if="
+            storedCurrentData.customData.repeat.type === 'none' &&
+            storedCurrentData.customData.repeat.term !== 'none'
+          "
+          class="w-6/12 flex items-end"
+        >
+          <div class="text-xxs">종료설정 없을 시 1년 반복</div>
+        </div>
       </div>
     </div>
   </div>

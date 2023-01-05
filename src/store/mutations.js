@@ -120,7 +120,7 @@ const editRepeatMemo = (state) => {
         state.memoList[i].customData.repeat.groupId
     ) {
       const newObj = { ...state.memoList[i] };
-      newObj.currentData.repeat.groupId = repeatGroupId;
+      newObj.customData.repeat.groupId = repeatGroupId;
       newObj.customData.memo = memo;
       newObj.customData.title = title;
       newObj.customData.time = time;

@@ -107,6 +107,11 @@ const editOneMemo = (state) => {
 
 const editRepeatMemo = (state) => {
   const { memo, title, time, repeat } = state.currentData.customData;
+  const repeatGroupIdArray = state.memoList.map(
+    (memo) => memo.customData.repeat.groupId
+  );
+  let repeatGroupId =
+    repeatGroupIdArray.length === 0 ? 1 : Math.max(...repeatGroupIdArray) + 1;
 
   for (let i = 0; i < state.memoList.length; i++) {
     if (
@@ -115,6 +120,7 @@ const editRepeatMemo = (state) => {
         state.memoList[i].customData.repeat.groupId
     ) {
       const newObj = { ...state.memoList[i] };
+      newObj.currentData.repeat.groupId = repeatGroupId;
       newObj.customData.memo = memo;
       newObj.customData.title = title;
       newObj.customData.time = time;

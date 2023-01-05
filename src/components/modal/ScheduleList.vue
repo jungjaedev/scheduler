@@ -82,7 +82,10 @@
         </div>
         <div
           class="modal-content overflow-y-scroll text-sm max-h-96 w-60 h-40 flex justify-center items-center"
-          v-else
+          v-if="
+            (filteredMemoList.length === 0 && !isShowAllMemo) ||
+            storedMemoList.length === 0
+          "
         >
           <div>저장된 메모가 없습니다.</div>
         </div>

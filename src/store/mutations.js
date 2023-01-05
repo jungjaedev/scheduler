@@ -105,6 +105,31 @@ const editOneMemo = (state) => {
   );
 };
 
+const editRepeatMemo = (state) => {
+  const { memo, title, time, repeat } = state.currentData.customData;
+  const repeatGroupIdArray = state.memoList.map(
+    (memo) => memo.customData.repeat.groupId
+  );
+  let repeatGroupId =
+    repeatGroupIdArray.length === 0 ? 1 : Math.max(...repeatGroupIdArray) + 1;
+
+  for (let i = 0; i < state.memoList.length; i++) {
+    if (
+      state.currentData.dates <= state.memoList[i].dates &&
+      state.currentData.customData.repeat.groupId ===
+        state.memoList[i].customData.repeat.groupId
+    ) {
+      const newObj = { ...state.memoList[i] };
+      newObj.currentData.repeat.groupId = repeatGroupId;
+      newObj.customData.memo = memo;
+      newObj.customData.title = title;
+      newObj.customData.time = time;
+      newObj.customData.repeat = repeat;
+      localStorage.setItem(state.memoList[i].key, JSON.stringify(newObj));
+    }
+  }
+};
+
 const removeOneMemo = (state) => {
   const indexOfData = state.memoList.findIndex(
     (memo) => memo.key === state.currentData.key
@@ -144,4 +169,5 @@ export {
   closeModal,
   showScheduleList,
   removeRepeatMemo,
+  editRepeatMemo,
 };

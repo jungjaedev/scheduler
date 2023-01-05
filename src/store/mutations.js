@@ -37,6 +37,7 @@ const showModal = (state, payload) => {
 const closeModal = (state) => {
   state.isMemoModalOpen = false;
   state.isEmpty = false;
+  state.confirmModalType = "";
 };
 
 const addOneMemo = (state) => {

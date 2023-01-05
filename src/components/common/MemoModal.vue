@@ -45,12 +45,15 @@
           <ButtonTemplate
             class="bg-red-500 hover:bg-red-700"
             v-if="!this.$store.state.isNew"
-            @click="checkRepeat()"
+            @click="checkRepeat('delete')"
             >삭제</ButtonTemplate
           >
           <div v-else></div>
           <div>
-            <ButtonTemplate class="hover:bg-blue-700" @click="addMemo">
+            <ButtonTemplate
+              class="hover:bg-blue-700"
+              @click="checkRepeat('edit')"
+            >
               저장
             </ButtonTemplate>
             <ButtonTemplate
@@ -81,13 +84,34 @@ export default {
   },
   methods: {
     ...mapActions(["removeMemo", "addMemo"]),
-    checkRepeat() {
-      if (!this.storedCurrentData.customData.repeat.isRepeat) {
+    checkRepeat(type) {
+      if (
+        type === "delete" &&
+        !this.storedCurrentData.customData.repeat.isRepeat
+      ) {
         this.removeMemo();
-      } else {
-        this.$store.state.isRepeatConfirmModalOpen = true;
-        this.$store.commit("closeModal");
+        return;
+      } else if (
+        type === "edit" &&
+        !this.storedCurrentData.customData.repeat.isRepeat
+      ) {
+        this.addMemo();
+        return;
       }
+
+      if (
+        type === "delete" &&
+        this.storedCurrentData.customData.repeat.isRepeat
+      ) {
+        this.$store.state.confirmModalType = "delete";
+      } else if (
+        type === "edit" &&
+        this.storedCurrentData.customData.repeat.isRepeat
+      ) {
+        this.$store.state.confirmModalType = "edit";
+      }
+      this.$store.commit("closeModal");
+      this.$store.state.isRepeatConfirmModalOpen = true;
     },
   },
 };

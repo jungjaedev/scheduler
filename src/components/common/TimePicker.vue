@@ -126,7 +126,7 @@
         </div>
         <div
           v-if="storedCurrentData.customData.repeat.type === 'date'"
-          class="w-6/12"
+          class="w-5/12"
         >
           <label class="block mb-2.5 text-sm font-medium text-gray-900"
             >종료 날짜</label
@@ -138,7 +138,7 @@
                   storedCurrentData.customData.time.allDay ||
                   storedCurrentData.customData.repeat.term === 'none'
                 "
-                class="px-2 py-1 w-4/5 border rounded focus:outline-none focus:border-blue-300"
+                class="placeholder:text-xs px-2 py-1 w-4/5 border rounded focus:outline-none focus:border-blue-300"
                 :value="inputValue"
                 v-on="inputEvents"
                 placeholder="Select a date"
@@ -147,8 +147,8 @@
           </v-date-picker>
         </div>
         <div
-          v-if="storedCurrentData.customData.repeat.type === 'number'"
-          class="w-6/12"
+          v-else-if="storedCurrentData.customData.repeat.type === 'number'"
+          class="w-5/12"
         >
           <label class="block mb-2.5 text-sm font-medium text-gray-900"
             >반복 횟수</label
@@ -164,11 +164,11 @@
           />
         </div>
         <div
-          v-if="
+          v-else-if="
             storedCurrentData.customData.repeat.type === 'none' &&
             storedCurrentData.customData.repeat.term !== 'none'
           "
-          class="w-6/12 flex items-end"
+          class="w-5/12 flex items-end"
         >
           <div class="text-xxs">종료설정 없을 시 1년 반복</div>
         </div>

@@ -9,11 +9,12 @@ export default createStore({
     return {
       memoList: storage.fetch(),
       currentDate: "",
-      isOpen: false,
+      isMemoModalOpen: false,
       isNew: true,
       isEmpty: false,
       isListModalOpen: false,
-      isRepeatModalOpen: false,
+      isRepeatConfirmModalOpen: false,
+      confirmModalType: "",
       currentData: {
         customData: {
           createdAt: "",

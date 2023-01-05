@@ -31,11 +31,11 @@ const showModal = (state, payload) => {
   }
   const { day } = payload;
   state.currentDate = day;
-  state.isOpen = true;
+  state.isMemoModalOpen = true;
 };
 
 const closeModal = (state) => {
-  state.isOpen = false;
+  state.isMemoModalOpen = false;
   state.isEmpty = false;
 };
 

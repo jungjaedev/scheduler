@@ -7,13 +7,13 @@
             @click="removeRepeatMemo"
             class="bg-orange-500 my-2 hover:bg-orange-700 rounded-full"
           >
-            이후 모든 메모 삭제
+            이후 모든 메모 {{ editOrDelete }}
           </ButtonTemplate>
           <ButtonTemplate
-            @click="deleteOneMemo()"
+            @click="oneMemoControl()"
             class="text-blue-500 bg-gray-200 my-2 hover:bg-gray-300 rounded-full"
           >
-            이 메모만 삭제
+            이 메모만 {{ editOrDelete }}
           </ButtonTemplate>
           <ButtonTemplate
             @click="this.$store.state.isRepeatConfirmModalOpen = false"
@@ -35,12 +35,25 @@ export default {
   components: {
     ButtonTemplate,
   },
+  data() {
+    return {
+      editOrDelete:
+        this.$store.state.confirmModalType === "edit" ? "수정" : "삭제",
+    };
+  },
   methods: {
-    ...mapActions(["removeMemo", "removeRepeatMemo"]),
-    deleteOneMemo() {
+    ...mapActions(["removeMemo", "removeRepeatMemo", "addMemo"]),
+    oneMemoControl() {
+      if (this.$store.state.confirmModalType === "edit") {
+        this.addMemo();
+      } else if (this.$store.state.confirmModalType === "delete") {
+        this.removeMemo();
+      }
       this.$store.state.isRepeatConfirmModalOpen = false;
-      this.removeMemo();
     },
+    // repeatMemoControl() {
+
+    // }
   },
 };
 </script>

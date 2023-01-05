@@ -42,7 +42,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["removeMemo", "removeRepeatMemo", "addMemo"]),
+    ...mapActions([
+      "removeMemo",
+      "removeRepeatMemo",
+      "addMemo",
+      "editRepeatMemo",
+    ]),
     oneMemoControl() {
       if (this.$store.state.confirmModalType === "edit") {
         this.addMemo();
@@ -55,7 +60,7 @@ export default {
       if (this.$store.state.confirmModalType === "delete") {
         this.removeRepeatMemo();
       } else if (this.$store.state.confirmModalType === "edit") {
-        console.log("edit");
+        this.editRepeatMemo();
       }
     },
   },

@@ -10,6 +10,12 @@ const removeRepeatMemo = (context) => {
   context.state.isRepeatConfirmModalOpen = false;
 };
 
+const editRepeatMemo = (context) => {
+  context.commit("editRepeatMemo");
+  context.commit("fetchData");
+  context.state.isRepeatConfirmModalOpen = false;
+};
+
 const addMemo = (context) => {
   if (context.state.currentData.customData.memo === "") {
     context.state.isEmpty = true;
@@ -25,4 +31,4 @@ const addMemo = (context) => {
   context.commit("fetchData");
 };
 
-export { addMemo, removeMemo, removeRepeatMemo };
+export { addMemo, removeMemo, removeRepeatMemo, editRepeatMemo };

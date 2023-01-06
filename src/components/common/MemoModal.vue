@@ -13,7 +13,7 @@
               id="title"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               type="text"
-              v-model="storedCurrentData.customData.title"
+              v-model="currentData.customData.title"
               placeholder="새로운 이벤트"
             />
           </div>
@@ -27,7 +27,7 @@
               id="memo"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               type="text"
-              v-model="storedCurrentData.customData.memo"
+              v-model="currentData.customData.memo"
               @focus="this.$store.state.isEmpty = false"
               placeholder="메모"
             />
@@ -77,33 +77,27 @@ export default {
     BaseButton,
   },
   computed: {
-    ...mapGetters(["storedCurrentData"]),
+    ...mapGetters(["currentData"]),
   },
   methods: {
     ...mapActions(["removeMemo", "addMemo"]),
     checkRepeat(type) {
-      if (
-        type === "delete" &&
-        !this.storedCurrentData.customData.repeat.isRepeat
-      ) {
+      if (type === "delete" && !this.currentData.customData.repeat.isRepeat) {
         this.removeMemo();
         return;
       } else if (
         type === "edit" &&
-        !this.storedCurrentData.customData.repeat.isRepeat
+        !this.currentData.customData.repeat.isRepeat
       ) {
         this.addMemo();
         return;
       }
 
-      if (
-        type === "delete" &&
-        this.storedCurrentData.customData.repeat.isRepeat
-      ) {
+      if (type === "delete" && this.currentData.customData.repeat.isRepeat) {
         this.$store.state.confirmModalType = "delete";
       } else if (
         type === "edit" &&
-        this.storedCurrentData.customData.repeat.isRepeat
+        this.currentData.customData.repeat.isRepeat
       ) {
         this.$store.state.confirmModalType = "edit";
       }

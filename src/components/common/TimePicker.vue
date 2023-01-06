@@ -95,7 +95,10 @@
           >
           <select
             name="alert"
-            :disabled="storedCurrentData.customData.time.allDay"
+            :disabled="
+              storedCurrentData.customData.time.allDay ||
+              !this.$store.state.isNew
+            "
             v-model="storedCurrentData.customData.repeat.term"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
           >
@@ -114,7 +117,8 @@
             name="alert"
             :disabled="
               storedCurrentData.customData.time.allDay ||
-              storedCurrentData.customData.repeat.term === 'none'
+              storedCurrentData.customData.repeat.term === 'none' ||
+              !this.$store.state.isNew
             "
             v-model="storedCurrentData.customData.repeat.type"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
@@ -136,7 +140,8 @@
               <input
                 :disabled="
                   storedCurrentData.customData.time.allDay ||
-                  storedCurrentData.customData.repeat.term === 'none'
+                  storedCurrentData.customData.repeat.term === 'none' ||
+                  !this.$store.state.isNew
                 "
                 class="placeholder:text-xs px-2 py-1 w-4/5 border rounded focus:outline-none focus:border-blue-300"
                 :value="inputValue"
@@ -156,7 +161,8 @@
           <input
             :disabled="
               storedCurrentData.customData.time.allDay ||
-              storedCurrentData.customData.repeat.term === 'none'
+              storedCurrentData.customData.repeat.term === 'none' ||
+              !this.$store.state.isNew
             "
             type="number"
             class="px-2 py-1 w-3/5 border rounded focus:outline-none focus:border-blue-300"

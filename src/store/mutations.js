@@ -99,8 +99,10 @@ const addOneMemo = (state) => {
 
         newObj.key++;
         let myDate = new Date(newObj.dates);
+
         newObj.dates =
           repeat.term === "daily" ? addDays(myDate, 1) : addDays(myDate, 7);
+
         localStorage.setItem(newObj.key, JSON.stringify(newObj));
         state.memoList.push(newObj);
       }
@@ -116,14 +118,16 @@ const editOneMemo = (state) => {
 };
 
 const editRepeatMemo = (state) => {
-  const { memo, title, time, repeat } = JSON.parse(
+  const { memo, title, time } = JSON.parse(
     JSON.stringify(state.currentData.customData)
   );
+
   const repeatGroupIdArray = state.memoList.map(
     (memo) => memo.customData.repeat.groupId
   );
   let repeatGroupId =
     repeatGroupIdArray.length === 0 ? 1 : Math.max(...repeatGroupIdArray) + 1;
+
   for (let i = 0; i < state.memoList.length; i++) {
     if (
       state.currentData.dates <= state.memoList[i].dates &&
@@ -134,7 +138,6 @@ const editRepeatMemo = (state) => {
       newObj.customData.memo = memo;
       newObj.customData.title = title;
       newObj.customData.time = time;
-      newObj.customData.repeat = repeat;
       newObj.customData.repeat.groupId = repeatGroupId;
       localStorage.setItem(state.memoList[i].key, JSON.stringify(newObj));
     }

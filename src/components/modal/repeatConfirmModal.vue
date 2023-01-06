@@ -50,6 +50,12 @@ export default {
     ]),
     oneMemoControl() {
       if (this.$store.state.confirmModalType === "edit") {
+        this.$store.state.currentData.customData.repeat = {
+          term: "none",
+          type: "none",
+          endDate: "",
+          repeatCount: "1",
+        };
         this.addMemo();
       } else if (this.$store.state.confirmModalType === "delete") {
         this.removeMemo();

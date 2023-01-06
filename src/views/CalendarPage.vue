@@ -1,7 +1,7 @@
 <template>
   <div>
     <MemoModal
-      @click.self="this.$store.commit('closeModal')"
+      @click.self="this.$store.commit('closeMemoModal')"
       v-if="this.$store.state.isMemoModalOpen"
     >
     </MemoModal>

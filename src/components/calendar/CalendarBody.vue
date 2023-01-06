@@ -12,7 +12,7 @@
         <div class="flex flex-col h-full z-10 overflow-hidden">
           <span
             @click.prevent="
-              this.$store.commit('showModal', { day, type: 'new' })
+              this.$store.commit('showMemoModal', { day, type: 'new' })
             "
             class="day-label text-sm text-gray-900"
             >{{ day.day }}
@@ -29,7 +29,7 @@
             <p
               v-for="attr in attributes"
               @click.prevent="
-                this.$store.commit('showModal', { day, type: attr.key })
+                this.$store.commit('showMemoModal', { day, type: attr.key })
               "
               :key="attr.key"
               :class="[

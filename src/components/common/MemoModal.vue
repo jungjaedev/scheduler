@@ -55,7 +55,7 @@
             </BaseButton>
             <BaseButton
               class="text-blue-500 bg-white hover:bg-gray-200"
-              @click="this.$store.commit('closeModal')"
+              @click="this.$store.commit('closeMemoModal')"
             >
               닫기
             </BaseButton>
@@ -107,7 +107,7 @@ export default {
       ) {
         this.$store.state.confirmModalType = "edit";
       }
-      this.$store.commit("closeModal");
+      this.$store.commit("closeMemoModal");
       this.$store.state.isRepeatConfirmModalOpen = true;
     },
   },

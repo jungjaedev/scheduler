@@ -1,4 +1,4 @@
-import { addDays, getRangeOfDays, compareDates } from "@/utils/repeat";
+import { getRepeatDates, getRepeatNum } from "@/utils/repeat";
 import { storage } from "@/utils/storage";
 
 const showModal = (state, payload) => {
@@ -75,37 +75,18 @@ const addOneMemo = (state) => {
   localStorage.setItem(key, JSON.stringify(obj));
   state.memoList.push(obj);
   if (repeat.isRepeat) {
-    if (repeat.term === "daily" || repeat.term === "weekly") {
-      const newObj = { ...obj };
+    const newObj = { ...obj };
+    const repeatNum = getRepeatNum(repeat, newObj);
 
-      let repeatNum = repeat.term === "daily" ? 365 : Math.floor(365 / 7);
+    for (let i = 0; i < repeatNum; i++) {
       if (repeat.type === "number") {
-        repeatNum = Number(repeat.repeatCount) - 1;
-      } else if (repeat.type === "date") {
-        if (compareDates(newObj.dates, repeat.endDate) === true) {
-          repeatNum =
-            repeat.term === "daily"
-              ? getRangeOfDays(newObj.dates, repeat.endDate)
-              : Math.floor(getRangeOfDays(newObj.dates, repeat.endDate) / 7);
-        } else {
-          repeatNum = 0;
-        }
+        repeat.repeatCount = repeatNum - i;
       }
 
-      for (let i = 0; i < repeatNum; i++) {
-        if (repeat.type === "number") {
-          repeat.repeatCount = repeatNum - i;
-        }
-
-        newObj.key++;
-        let myDate = new Date(newObj.dates);
-
-        newObj.dates =
-          repeat.term === "daily" ? addDays(myDate, 1) : addDays(myDate, 7);
-
-        localStorage.setItem(newObj.key, JSON.stringify(newObj));
-        state.memoList.push(newObj);
-      }
+      newObj.key++;
+      newObj.dates = getRepeatDates(new Date(newObj.dates), repeat.term);
+      localStorage.setItem(newObj.key, JSON.stringify(newObj));
+      state.memoList.push(newObj);
     }
   }
 };

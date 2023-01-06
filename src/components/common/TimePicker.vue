@@ -69,25 +69,7 @@
           </select>
         </div>
       </div>
-      <div class="w-full flex pl-1 text-sm text-left mt-2">
-        <label class="block mb-2 text-sm font-medium text-gray-900"
-          >알림 설정</label
-        >
-      </div>
-      <div class="flex w-full">
-        <div class="w-2/7">
-          <select
-            name="alert"
-            :disabled="storedCurrentData.customData.time.allDay"
-            v-model="storedCurrentData.customData.time.alert"
-            class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
-          >
-            <option value="none">없음</option>
-            <option value="5">5분전</option>
-            <option value="10">30분전</option>
-          </select>
-        </div>
-      </div>
+
       <div class="w-full flex pl-1 text-sm text-left mt-2">
         <div class="w-3/12 mr-2">
           <label class="block mb-2 text-sm font-medium text-gray-900"
@@ -177,6 +159,25 @@
           class="w-5/12 flex items-end"
         >
           <div class="text-xxs">종료설정 없을 시 1년 반복</div>
+        </div>
+      </div>
+      <div class="w-full flex pl-1 text-sm text-left mt-2">
+        <label class="block mb-2 text-sm font-medium text-gray-900"
+          >알림 설정</label
+        >
+      </div>
+      <div class="flex w-full">
+        <div class="w-2/7">
+          <select
+            name="alert"
+            :disabled="storedCurrentData.customData.time.allDay"
+            v-model="storedCurrentData.customData.time.alert"
+            class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
+          >
+            <option value="none">없음</option>
+            <option value="5">5분전</option>
+            <option value="10">30분전</option>
+          </select>
         </div>
       </div>
     </div>

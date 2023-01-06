@@ -1,8 +1,8 @@
 const storedMemoList = (state) => {
   return state.memoList;
 };
-const storedCurrentData = (state) => {
+const currentData = (state) => {
   return state.currentData;
 };
 
-export { storedCurrentData, storedMemoList };
+export { currentData, storedMemoList };

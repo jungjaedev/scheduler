@@ -1,6 +1,6 @@
 const removeMemo = (context) => {
   context.commit("removeOneMemo");
-  context.commit("closeModal");
+  context.commit("closeMemoModal");
   context.commit("fetchData");
 };
 
@@ -27,7 +27,7 @@ const addMemo = (context) => {
   } else {
     context.commit("editOneMemo");
   }
-  context.commit("closeModal");
+  context.commit("closeMemoModal");
   context.commit("fetchData");
 };
 

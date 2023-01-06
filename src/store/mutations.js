@@ -1,7 +1,7 @@
 import { getRepeatDates, getRepeatNum } from "@/utils/repeat";
 import { storage } from "@/utils/storage";
 
-const showModal = (state, payload) => {
+const showMemoModal = (state, payload) => {
   if (payload.type !== "new") {
     state.isNew = false;
     const data = state.memoList.find((memo) => memo.key === payload.type);
@@ -34,7 +34,7 @@ const showModal = (state, payload) => {
   state.isMemoModalOpen = true;
 };
 
-const closeModal = (state) => {
+const closeMemoModal = (state) => {
   state.isMemoModalOpen = false;
   state.isEmpty = false;
 };
@@ -160,8 +160,8 @@ export {
   removeOneMemo,
   editOneMemo,
   addOneMemo,
-  showModal,
-  closeModal,
+  showMemoModal,
+  closeMemoModal,
   showScheduleList,
   removeRepeatMemo,
   editRepeatMemo,

@@ -3,24 +3,24 @@
     <div class="modal modal-overlay">
       <div class="modal-window">
         <div class="modal-content w-80 flex flex-col">
-          <ButtonTemplate
+          <BaseButton
             @click="allRepeatMemoControl()"
             class="bg-orange-500 my-2 hover:bg-orange-700 rounded-full"
           >
             이후 모든 메모 {{ editOrDelete }}
-          </ButtonTemplate>
-          <ButtonTemplate
+          </BaseButton>
+          <BaseButton
             @click="oneMemoControl()"
             class="text-blue-500 bg-gray-200 my-2 hover:bg-gray-300 rounded-full"
           >
             이 메모만 {{ editOrDelete }}
-          </ButtonTemplate>
-          <ButtonTemplate
+          </BaseButton>
+          <BaseButton
             @click="this.$store.state.isRepeatConfirmModalOpen = false"
             class="text-blue-500 bg-gray-200 my-2 mt-4 hover:bg-gray-300 rounded-full"
           >
             닫기
-          </ButtonTemplate>
+          </BaseButton>
         </div>
       </div>
     </div>
@@ -29,11 +29,11 @@
 
 <script>
 import { mapActions } from "vuex";
-import ButtonTemplate from "@/components/templates/ButtonTemplate.vue";
+import BaseButton from "@/components/templates/BaseButton.vue";
 
 export default {
   components: {
-    ButtonTemplate,
+    BaseButton,
   },
   data() {
     return {

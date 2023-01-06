@@ -13,7 +13,7 @@
               id="title"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               type="text"
-              v-model="storedCurrentData.customData.title"
+              v-model="currentData.customData.title"
               placeholder="새로운 이벤트"
             />
           </div>
@@ -27,7 +27,7 @@
               id="memo"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               type="text"
-              v-model="storedCurrentData.customData.memo"
+              v-model="currentData.customData.memo"
               @focus="this.$store.state.isEmpty = false"
               placeholder="메모"
             />
@@ -42,26 +42,23 @@
         </div>
         <p v-else>&nbsp;</p>
         <footer class="modal-footer flex justify-between">
-          <ButtonTemplate
+          <BaseButton
             class="bg-red-500 hover:bg-red-700"
             v-if="!this.$store.state.isNew"
             @click="checkRepeat('delete')"
-            >삭제</ButtonTemplate
+            >삭제</BaseButton
           >
           <div v-else></div>
           <div>
-            <ButtonTemplate
-              class="hover:bg-blue-700"
-              @click="checkRepeat('edit')"
-            >
+            <BaseButton class="hover:bg-blue-700" @click="checkRepeat('edit')">
               저장
-            </ButtonTemplate>
-            <ButtonTemplate
+            </BaseButton>
+            <BaseButton
               class="text-blue-500 bg-white hover:bg-gray-200"
-              @click="this.$store.commit('closeModal')"
+              @click="this.$store.commit('closeMemoModal')"
             >
               닫기
-            </ButtonTemplate>
+            </BaseButton>
           </div>
         </footer>
       </div>
@@ -72,45 +69,39 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import TimePicker from "@/components/common/TimePicker.vue";
-import ButtonTemplate from "@/components/templates/ButtonTemplate.vue";
+import BaseButton from "@/components/templates/BaseButton.vue";
 
 export default {
   components: {
     TimePicker,
-    ButtonTemplate,
+    BaseButton,
   },
   computed: {
-    ...mapGetters(["storedCurrentData"]),
+    ...mapGetters(["currentData"]),
   },
   methods: {
     ...mapActions(["removeMemo", "addMemo"]),
     checkRepeat(type) {
-      if (
-        type === "delete" &&
-        !this.storedCurrentData.customData.repeat.isRepeat
-      ) {
+      if (type === "delete" && !this.currentData.customData.repeat.isRepeat) {
         this.removeMemo();
         return;
       } else if (
         type === "edit" &&
-        !this.storedCurrentData.customData.repeat.isRepeat
+        !this.currentData.customData.repeat.isRepeat
       ) {
         this.addMemo();
         return;
       }
 
-      if (
-        type === "delete" &&
-        this.storedCurrentData.customData.repeat.isRepeat
-      ) {
+      if (type === "delete" && this.currentData.customData.repeat.isRepeat) {
         this.$store.state.confirmModalType = "delete";
       } else if (
         type === "edit" &&
-        this.storedCurrentData.customData.repeat.isRepeat
+        this.currentData.customData.repeat.isRepeat
       ) {
         this.$store.state.confirmModalType = "edit";
       }
-      this.$store.commit("closeModal");
+      this.$store.commit("closeMemoModal");
       this.$store.state.isRepeatConfirmModalOpen = true;
     },
   },

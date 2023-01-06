@@ -16,7 +16,7 @@
           <input
             id="default-checkbox"
             type="checkbox"
-            v-model="storedCurrentData.customData.time.allDay"
+            v-model="currentData.customData.time.allDay"
             class="w-4 mr-1 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
           />
           <label
@@ -27,9 +27,9 @@
         </div>
         <div class="w-1/5 mr-1">
           <select
-            :disabled="storedCurrentData.customData.time.allDay"
+            :disabled="currentData.customData.time.allDay"
             name="hours"
-            v-model="storedCurrentData.customData.time.hours"
+            v-model="currentData.customData.time.hours"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
           >
             <option value="01">01</option>
@@ -48,9 +48,9 @@
         </div>
         <div class="w-1/5 mx-1">
           <select
-            :disabled="storedCurrentData.customData.time.allDay"
+            :disabled="currentData.customData.time.allDay"
             name="minutes"
-            v-model="storedCurrentData.customData.time.minutes"
+            v-model="currentData.customData.time.minutes"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
           >
             <option value="00">00</option>
@@ -59,9 +59,9 @@
         </div>
         <div class="w-1/4 mx-1">
           <select
-            :disabled="storedCurrentData.customData.time.allDay"
+            :disabled="currentData.customData.time.allDay"
             name="ampm"
-            v-model="storedCurrentData.customData.time.ampm"
+            v-model="currentData.customData.time.ampm"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
           >
             <option value="am">오전</option>
@@ -78,10 +78,9 @@
           <select
             name="alert"
             :disabled="
-              storedCurrentData.customData.time.allDay ||
-              !this.$store.state.isNew
+              currentData.customData.time.allDay || !this.$store.state.isNew
             "
-            v-model="storedCurrentData.customData.repeat.term"
+            v-model="currentData.customData.repeat.term"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
           >
             <option value="none">없음</option>
@@ -98,11 +97,11 @@
           <select
             name="alert"
             :disabled="
-              storedCurrentData.customData.time.allDay ||
-              storedCurrentData.customData.repeat.term === 'none' ||
+              currentData.customData.time.allDay ||
+              currentData.customData.repeat.term === 'none' ||
               !this.$store.state.isNew
             "
-            v-model="storedCurrentData.customData.repeat.type"
+            v-model="currentData.customData.repeat.type"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
           >
             <option value="none">안함</option>
@@ -111,18 +110,18 @@
           </select>
         </div>
         <div
-          v-if="storedCurrentData.customData.repeat.type === 'date'"
+          v-if="currentData.customData.repeat.type === 'date'"
           class="w-5/12"
         >
           <label class="block mb-2.5 text-sm font-medium text-gray-900"
             >종료 날짜</label
           >
-          <v-date-picker v-model="storedCurrentData.customData.repeat.endDate">
+          <v-date-picker v-model="currentData.customData.repeat.endDate">
             <template v-slot="{ inputValue, inputEvents }">
               <input
                 :disabled="
-                  storedCurrentData.customData.time.allDay ||
-                  storedCurrentData.customData.repeat.term === 'none' ||
+                  currentData.customData.time.allDay ||
+                  currentData.customData.repeat.term === 'none' ||
                   !this.$store.state.isNew
                 "
                 class="placeholder:text-xs px-2 py-1 w-4/5 border rounded focus:outline-none focus:border-blue-300"
@@ -134,7 +133,7 @@
           </v-date-picker>
         </div>
         <div
-          v-else-if="storedCurrentData.customData.repeat.type === 'number'"
+          v-else-if="currentData.customData.repeat.type === 'number'"
           class="w-5/12"
         >
           <label class="block mb-2.5 text-sm font-medium text-gray-900"
@@ -142,19 +141,19 @@
           >
           <input
             :disabled="
-              storedCurrentData.customData.time.allDay ||
-              storedCurrentData.customData.repeat.term === 'none' ||
+              currentData.customData.time.allDay ||
+              currentData.customData.repeat.term === 'none' ||
               !this.$store.state.isNew
             "
             type="number"
             class="px-2 py-1 w-3/5 border rounded focus:outline-none focus:border-blue-300"
-            v-model="storedCurrentData.customData.repeat.repeatCount"
+            v-model="currentData.customData.repeat.repeatCount"
           />
         </div>
         <div
           v-else-if="
-            storedCurrentData.customData.repeat.type === 'none' &&
-            storedCurrentData.customData.repeat.term !== 'none'
+            currentData.customData.repeat.type === 'none' &&
+            currentData.customData.repeat.term !== 'none'
           "
           class="w-5/12 flex items-end"
         >
@@ -170,8 +169,8 @@
         <div class="w-2/7">
           <select
             name="alert"
-            :disabled="storedCurrentData.customData.time.allDay"
-            v-model="storedCurrentData.customData.time.alert"
+            :disabled="currentData.customData.time.allDay"
+            v-model="currentData.customData.time.alert"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
           >
             <option value="none">없음</option>
@@ -189,9 +188,9 @@ import { mapGetters } from "vuex";
 import { formatDate } from "@/utils/filters";
 export default {
   computed: {
-    ...mapGetters(["storedCurrentData"]),
+    ...mapGetters(["currentData"]),
     endRepeatNumber() {
-      return this.storedCurrentData.customData.repeat.repeatCount;
+      return this.currentData.customData.repeat.repeatCount;
     },
   },
   methods: {
@@ -200,10 +199,10 @@ export default {
   watch: {
     endRepeatNumber(value) {
       if (value > 999) {
-        this.storedCurrentData.customData.repeat.repeatCount = 999;
+        this.currentData.customData.repeat.repeatCount = 999;
       }
       if (value < 1) {
-        this.storedCurrentData.customData.repeat.repeatCount = 1;
+        this.currentData.customData.repeat.repeatCount = 1;
       }
     },
   },

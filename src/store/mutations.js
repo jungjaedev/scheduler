@@ -100,9 +100,7 @@ const addOneMemo = (state) => {
         newObj.key++;
         let myDate = new Date(newObj.dates);
         newObj.dates =
-          repeat.term === "daily"
-            ? addDays(myDate, 1).toISOString().split("T")[0]
-            : addDays(myDate, 7).toISOString().split("T")[0];
+          repeat.term === "daily" ? addDays(myDate, 1) : addDays(myDate, 7);
         localStorage.setItem(newObj.key, JSON.stringify(newObj));
         state.memoList.push(newObj);
       }

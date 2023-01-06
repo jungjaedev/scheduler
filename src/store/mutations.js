@@ -51,7 +51,9 @@ const addOneMemo = (state) => {
   let repeatGroupId =
     repeatGroupIdArray.length === 0 ? 1 : Math.max(...repeatGroupIdArray) + 1;
 
-  const { memo, title, time, repeat } = state.currentData.customData;
+  const { memo, title, time, repeat } = JSON.parse(
+    JSON.stringify(state.currentData.customData)
+  );
 
   repeat.isRepeat = repeat.term === "none" ? false : true;
   repeat.groupId = repeatGroupId;
@@ -88,6 +90,10 @@ const addOneMemo = (state) => {
       }
 
       for (let i = 0; i < repeatNum; i++) {
+        if (repeat.type === "number") {
+          repeat.repeatCount = repeatNum - i;
+        }
+
         newObj.key++;
         let myDate = new Date(newObj.dates);
         newObj.dates = addDays(myDate, 1).toISOString().split("T")[0];

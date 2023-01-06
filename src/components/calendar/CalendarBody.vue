@@ -74,13 +74,13 @@
       </template>
       <template v-slot:footer>
         <div class="bg-gray-100 text-center p-2 border-t rounded-b-lg">
-          <ButtonTemplate class="hover:bg-blue-700" @click="moveToToday"
-            >Today</ButtonTemplate
+          <BaseButton class="hover:bg-blue-700" @click="moveToToday"
+            >Today</BaseButton
           >
-          <ButtonTemplate
+          <BaseButton
             class="hover:bg-blue-700"
             @click="this.$store.commit('showScheduleList')"
-            >일정확인</ButtonTemplate
+            >일정확인</BaseButton
           >
         </div>
       </template>
@@ -90,11 +90,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import ButtonTemplate from "@/components/templates/ButtonTemplate.vue";
+import BaseButton from "@/components/templates/BaseButton.vue";
 
 export default {
   components: {
-    ButtonTemplate,
+    BaseButton,
   },
   data() {
     return {

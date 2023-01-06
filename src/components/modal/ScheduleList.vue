@@ -100,8 +100,8 @@
           >
         </div>
         <footer class="modal-footer">
-          <ButtonTemplate @click="this.$store.state.isListModalOpen = false"
-            >닫기</ButtonTemplate
+          <BaseButton @click="this.$store.state.isListModalOpen = false"
+            >닫기</BaseButton
           >
         </footer>
       </div>
@@ -111,12 +111,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-import ButtonTemplate from "@/components/templates/ButtonTemplate";
+import BaseButton from "@/components/templates/BaseButton";
 import { formatDate } from "@/utils/filters";
 
 export default {
   components: {
-    ButtonTemplate,
+    BaseButton,
   },
   data() {
     return {

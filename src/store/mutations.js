@@ -23,7 +23,7 @@ const showMemoModal = (state, payload) => {
           term: "none",
           type: "none",
           endDate: "",
-          repeatCount: "1",
+          repeatCount: 1,
         },
       },
     };
@@ -96,6 +96,10 @@ const editOneMemo = (state) => {
     state.currentData.key,
     JSON.stringify(state.currentData)
   );
+  let indexOfData = state.memoList.findIndex(
+    (item) => item.key === state.currentData.key
+  );
+  state.memoList.splice(indexOfData, 1, state.currentData);
 };
 
 const editRepeatMemo = (state) => {
@@ -131,24 +135,54 @@ const removeOneMemo = (state) => {
   );
   localStorage.removeItem(state.currentData.key);
   state.memoList.splice(indexOfData, 1);
-  state.currentData = {};
 };
 
 const removeRepeatMemo = (state) => {
+  const removedIndex = [];
   for (let i = 0; i < state.memoList.length; i++) {
     if (
       state.currentData.dates <= state.memoList[i].dates &&
       state.currentData.customData.repeat.groupId ===
         state.memoList[i].customData.repeat.groupId
     ) {
+      const indexOfData = state.memoList.findIndex(
+        (item) => item.key === state.memoList[i].key
+      );
       localStorage.removeItem(state.memoList[i].key);
+      removedIndex.push(indexOfData);
     }
   }
-  state.currentData = {};
+  for (let i = removedIndex.length - 1; i >= 0; i--) {
+    state.memoList.splice(removedIndex[i], 1);
+  }
 };
 
 const showScheduleList = (state) => {
   state.isListModalOpen = true;
+};
+
+const fetchRepeatCount = (state) => {
+  let groupId = state.savedGroupId;
+  let repeatNum = 0;
+  for (let i = 0; i < state.memoList.length; i++) {
+    if (
+      state.memoList[i].customData.repeat.type === "number" &&
+      groupId === state.memoList[i].customData.repeat.groupId
+    ) {
+      repeatNum++;
+    }
+  }
+  for (let i = 0; i < state.memoList.length; i++) {
+    if (
+      state.memoList[i].customData.repeat.type === "number" &&
+      groupId === state.memoList[i].customData.repeat.groupId
+    ) {
+      const newObj = JSON.parse(localStorage.getItem(state.memoList[i].key));
+      newObj.customData.repeat.repeatCount = repeatNum--;
+      localStorage.setItem(state.memoList[i].key, JSON.stringify(newObj));
+    }
+  }
+  state.currentData = {};
 };
 
 const fetchData = (state) => {
@@ -165,4 +199,5 @@ export {
   showScheduleList,
   removeRepeatMemo,
   editRepeatMemo,
+  fetchRepeatCount,
 };

@@ -49,12 +49,14 @@ export default {
       "editRepeatMemo",
     ]),
     oneMemoControl() {
+      this.$store.state.savedGroupId =
+        this.$store.state.currentData.customData.repeat.groupId;
       if (this.$store.state.confirmModalType === "edit") {
         this.$store.state.currentData.customData.repeat = {
           term: "none",
           type: "none",
           endDate: "",
-          repeatCount: "1",
+          repeatCount: 1,
         };
         this.addMemo();
       } else if (this.$store.state.confirmModalType === "delete") {
@@ -63,6 +65,8 @@ export default {
       this.$store.state.isRepeatConfirmModalOpen = false;
     },
     allRepeatMemoControl() {
+      this.$store.state.savedGroupId =
+        this.$store.state.currentData.customData.repeat.groupId;
       if (this.$store.state.confirmModalType === "delete") {
         this.removeRepeatMemo();
       } else if (this.$store.state.confirmModalType === "edit") {

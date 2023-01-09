@@ -1,17 +1,20 @@
 const removeMemo = (context) => {
   context.commit("removeOneMemo");
-  context.commit("closeMemoModal");
+  context.commit("fetchRepeatCount");
   context.commit("fetchData");
+  context.commit("closeMemoModal");
 };
 
 const removeRepeatMemo = (context) => {
   context.commit("removeRepeatMemo");
+  context.commit("fetchRepeatCount");
   context.commit("fetchData");
   context.state.isRepeatConfirmModalOpen = false;
 };
 
 const editRepeatMemo = (context) => {
   context.commit("editRepeatMemo");
+  context.commit("fetchRepeatCount");
   context.commit("fetchData");
   context.state.isRepeatConfirmModalOpen = false;
 };
@@ -26,6 +29,7 @@ const addMemo = (context) => {
     context.commit("addOneMemo");
   } else {
     context.commit("editOneMemo");
+    context.commit("fetchRepeatCount");
   }
   context.commit("closeMemoModal");
   context.commit("fetchData");

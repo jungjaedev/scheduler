@@ -31,10 +31,11 @@ export default createStore({
             term: "none",
             type: "none",
             endDate: "",
-            repeatCount: "1",
+            repeatCount: 1,
           },
         },
       },
+      savedGroupId: 0,
     };
   },
   getters,

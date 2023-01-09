@@ -30,7 +30,7 @@
                     Date.parse(formatDate(memo.dates)) ===
                     Date.parse(new Date().toLocaleDateString())
                   "
-                  class="text-right today text-xxs"
+                  class="ml-1 text-right today text-xxs"
                   ><i class="fa-solid fa-circle"></i
                 ></span>
               </div>

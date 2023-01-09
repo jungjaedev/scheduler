@@ -8,6 +8,7 @@ const removeMemo = (context) => {
 
 const removeRepeatMemo = (context) => {
   context.commit("removeRepeatMemo");
+  context.commit("fetchRepeatCount");
   context.commit("fetchData");
   context.state.isRepeatConfirmModalOpen = false;
 };

@@ -1,5 +1,6 @@
 import { getRepeatDates, getRepeatNum } from "@/utils/repeat";
 import { storage } from "@/utils/storage";
+import { remove } from "@vue/shared";
 
 const showMemoModal = (state, payload) => {
   if (payload.type !== "new") {
@@ -134,16 +135,23 @@ const removeOneMemo = (state) => {
 };
 
 const removeRepeatMemo = (state) => {
+  const removedIndex = [];
   for (let i = 0; i < state.memoList.length; i++) {
     if (
       state.currentData.dates <= state.memoList[i].dates &&
       state.currentData.customData.repeat.groupId ===
         state.memoList[i].customData.repeat.groupId
     ) {
+      const indexOfData = state.memoList.findIndex(
+        (item) => item.key === state.memoList[i].key
+      );
       localStorage.removeItem(state.memoList[i].key);
+      removedIndex.push(indexOfData);
     }
   }
-  // state.currentData = {};
+  for (let i = removedIndex.length - 1; i >= 0; i--) {
+    state.memoList.splice(removedIndex[i], 1);
+  }
 };
 
 const showScheduleList = (state) => {

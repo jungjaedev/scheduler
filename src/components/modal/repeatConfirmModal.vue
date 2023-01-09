@@ -11,9 +11,11 @@
           </BaseButton>
           <BaseButton
             v-if="
-              this.$store.state.confirmModalType === 'edit' &&
-              (!this.$store.state.isDateChanged ||
-                this.$store.state.currentData.customData.repeat.term === 'none')
+              this.$store.state.confirmModalType === 'delete' ||
+              (this.$store.state.confirmModalType === 'edit' &&
+                (!this.$store.state.isDateChanged ||
+                  this.$store.state.currentData.customData.repeat.term ===
+                    'none'))
             "
             @click="oneMemoControl()"
             class="text-blue-500 bg-gray-200 my-2 hover:bg-gray-300 rounded-full"

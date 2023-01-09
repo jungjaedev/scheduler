@@ -5,7 +5,7 @@
         <div
           :key="componentKey"
           v-if="storedMemoList.length !== 0"
-          class="modal-content overflow-y-scroll max-h-96 w-60"
+          class="modal-content overflow-y-scroll max-h-96 w-72"
         >
           <ul class="space-y-1 max-w-md list-inside">
             <li
@@ -56,7 +56,7 @@
                     {{ memo.customData.title }} &nbsp;
                   </span>
                 </div>
-                <div>
+                <div class="flex items-center content-center">
                   <span class="text-xs text-right text-gray-500">
                     {{
                       !memo.customData.time.allDay

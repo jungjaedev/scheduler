@@ -14,6 +14,7 @@ export default createStore({
       isEmpty: false,
       isListModalOpen: false,
       isRepeatConfirmModalOpen: false,
+      isDateChanged: false,
       confirmModalType: "",
       currentData: {
         customData: {

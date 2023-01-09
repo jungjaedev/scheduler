@@ -2,6 +2,7 @@ import { getRepeatDates, getRepeatNum } from "@/utils/repeat";
 import { storage } from "@/utils/storage";
 
 const showMemoModal = (state, payload) => {
+  state.isDateChanged = false;
   if (payload.type !== "new") {
     state.isNew = false;
     const data = state.memoList.find((memo) => memo.key === payload.type);
@@ -189,6 +190,10 @@ const fetchData = (state) => {
   state.memoList = storage.fetch();
 };
 
+const checkDateChanged = (state) => {
+  state.isDateChanged = true;
+};
+
 export {
   fetchData,
   removeOneMemo,
@@ -200,4 +205,5 @@ export {
   removeRepeatMemo,
   editRepeatMemo,
   fetchRepeatCount,
+  checkDateChanged,
 };

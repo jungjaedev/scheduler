@@ -131,7 +131,6 @@ const removeOneMemo = (state) => {
   );
   localStorage.removeItem(state.currentData.key);
   state.memoList.splice(indexOfData, 1);
-  state.currentData = {};
 };
 
 const removeRepeatMemo = (state) => {
@@ -144,11 +143,36 @@ const removeRepeatMemo = (state) => {
       localStorage.removeItem(state.memoList[i].key);
     }
   }
-  state.currentData = {};
+  // state.currentData = {};
 };
 
 const showScheduleList = (state) => {
   state.isListModalOpen = true;
+};
+
+const fetchRepeatCount = (state) => {
+  let repeatNum = 0;
+  for (let i = 0; i < state.memoList.length; i++) {
+    if (
+      state.currentData.customData.repeat.type === "number" &&
+      state.currentData.customData.repeat.groupId ===
+        state.memoList[i].customData.repeat.groupId
+    ) {
+      repeatNum++;
+    }
+  }
+  for (let i = 0; i < state.memoList.length; i++) {
+    if (
+      state.currentData.customData.repeat.type === "number" &&
+      state.currentData.customData.repeat.groupId ===
+        state.memoList[i].customData.repeat.groupId
+    ) {
+      const newObj = JSON.parse(localStorage.getItem(state.memoList[i].key));
+      newObj.customData.repeat.repeatCount = repeatNum--;
+      localStorage.setItem(state.memoList[i].key, JSON.stringify(newObj));
+    }
+  }
+  state.currentData = {};
 };
 
 const fetchData = (state) => {
@@ -165,4 +189,5 @@ export {
   showScheduleList,
   removeRepeatMemo,
   editRepeatMemo,
+  fetchRepeatCount,
 };

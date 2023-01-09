@@ -1,6 +1,5 @@
 const removeMemo = (context) => {
   context.commit("removeOneMemo");
-  // context.commit("fetchData");
   context.commit("fetchRepeatCount");
   context.commit("fetchData");
   context.commit("closeMemoModal");
@@ -29,6 +28,7 @@ const addMemo = (context) => {
     context.commit("addOneMemo");
   } else {
     context.commit("editOneMemo");
+    context.commit("fetchRepeatCount");
   }
   context.commit("closeMemoModal");
   context.commit("fetchData");

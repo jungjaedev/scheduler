@@ -81,13 +81,13 @@
           </ul>
         </div>
         <div
-          class="modal-content overflow-y-scroll text-sm max-h-96 w-60 h-40 flex justify-center items-center"
+          class="modal-content overflow-y-scroll text-sm max-h-96 w-full h-40 flex justify-center items-center"
           v-if="
             (filteredMemoList.length === 0 && !isShowAllMemo) ||
             storedMemoList.length === 0
           "
         >
-          <div>저장된 메모가 없습니다.</div>
+          <div class="pl-2">저장된 메모가 없습니다.</div>
         </div>
         <div
           class="flex justify-center items-center text-sm underline text-blue-700"

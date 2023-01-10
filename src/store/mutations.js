@@ -104,9 +104,7 @@ const editOneMemo = (state) => {
 };
 
 const editRepeatMemo = (state) => {
-  const { memo, title, time } = JSON.parse(
-    JSON.stringify(state.currentData.customData)
-  );
+  const { repeat } = JSON.parse(JSON.stringify(state.currentData.customData));
 
   const repeatGroupIdArray = state.memoList.map(
     (memo) => memo.customData.repeat.groupId
@@ -114,19 +112,43 @@ const editRepeatMemo = (state) => {
   let repeatGroupId =
     repeatGroupIdArray.length === 0 ? 1 : Math.max(...repeatGroupIdArray) + 1;
 
+  const keyArray = state.memoList.map((memo) => memo.key);
+  let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
+
+  const removedIndex = [];
   for (let i = 0; i < state.memoList.length; i++) {
     if (
       state.currentData.dates <= state.memoList[i].dates &&
       state.currentData.customData.repeat.groupId ===
         state.memoList[i].customData.repeat.groupId
     ) {
-      const newObj = { ...state.memoList[i] };
-      newObj.customData.memo = memo;
-      newObj.customData.title = title;
-      newObj.customData.time = time;
-      newObj.customData.repeat.groupId = repeatGroupId;
-      localStorage.setItem(state.memoList[i].key, JSON.stringify(newObj));
+      const indexOfData = state.memoList.findIndex(
+        (item) => item.key === state.memoList[i].key
+      );
+      localStorage.removeItem(state.memoList[i].key);
+      removedIndex.push(indexOfData);
     }
+  }
+  for (let i = removedIndex.length - 1; i >= 0; i--) {
+    state.memoList.splice(removedIndex[i], 1);
+  }
+
+  const obj = JSON.parse(JSON.stringify(state.currentData));
+  obj.customData.repeat.groupId = repeatGroupId;
+  obj.key = key;
+  localStorage.setItem(key++, JSON.stringify(obj));
+
+  const repeatNum = getRepeatNum(repeat, obj);
+  for (let i = repeatNum; i >= 1; i--) {
+    if (repeat.type === "number") {
+      obj.customData.repeat.repeatCount = i;
+    }
+
+    obj.key = key++;
+    obj.customData.repeat.groupId = repeatGroupId;
+    obj.dates = getRepeatDates(new Date(obj.dates), repeat.term);
+    localStorage.setItem(obj.key, JSON.stringify(obj));
+    state.memoList.push(obj);
   }
 };
 

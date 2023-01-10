@@ -1,38 +1,38 @@
-const removeMemo = (context) => {
-  context.commit("removeOneMemo");
-  context.commit("fetchRepeatCount");
-  context.commit("fetchData");
-  context.commit("closeMemoModal");
+const removeMemo = ({ commit }) => {
+  commit("removeOneMemo");
+  commit("fetchRepeatCount");
+  commit("fetchData");
+  commit("closeMemoModal");
 };
 
-const removeRepeatMemo = (context) => {
-  context.commit("removeRepeatMemo");
-  context.commit("fetchRepeatCount");
-  context.commit("fetchData");
-  context.state.isRepeatConfirmModalOpen = false;
+const removeRepeatMemo = ({ commit, state }) => {
+  commit("removeRepeatMemo");
+  commit("fetchRepeatCount");
+  commit("fetchData");
+  state.isRepeatConfirmModalOpen = false;
 };
 
-const editRepeatMemo = (context) => {
-  context.commit("editRepeatMemo");
-  context.commit("fetchRepeatCount");
-  context.commit("fetchData");
-  context.state.isRepeatConfirmModalOpen = false;
+const editRepeatMemo = ({ commit, state }) => {
+  commit("editRepeatMemo");
+  commit("fetchRepeatCount");
+  commit("fetchData");
+  state.isRepeatConfirmModalOpen = false;
 };
 
-const addMemo = (context) => {
-  if (context.state.currentData.customData.memo === "") {
-    context.state.isEmpty = true;
+const addMemo = ({ commit, state }) => {
+  if (state.currentData.customData.memo === "") {
+    state.isEmpty = true;
     return;
   }
 
-  if (context.state.isNew) {
-    context.commit("addOneMemo");
+  if (state.isNew) {
+    commit("addOneMemo");
   } else {
-    context.commit("editOneMemo");
-    context.commit("fetchRepeatCount");
+    commit("editOneMemo");
+    commit("fetchRepeatCount");
   }
-  context.commit("closeMemoModal");
-  context.commit("fetchData");
+  commit("closeMemoModal");
+  commit("fetchData");
 };
 
 export { addMemo, removeMemo, removeRepeatMemo, editRepeatMemo };

@@ -7,7 +7,7 @@
             @click="allRepeatMemoControl()"
             class="bg-orange-500 my-2 hover:bg-orange-700 rounded-full"
           >
-            이후 모든 메모 {{ editOrDelete }}
+            {{ afterThisMemo }} {{ editOrDelete }}
           </BaseButton>
           <BaseButton
             v-if="
@@ -20,13 +20,13 @@
             @click="oneMemoControl()"
             class="text-blue-500 bg-gray-200 my-2 hover:bg-gray-300 rounded-full"
           >
-            이 메모만 {{ editOrDelete }}
+            {{ onlyThisMemo }} {{ editOrDelete }}
           </BaseButton>
           <BaseButton
             @click="this.$store.state.isRepeatConfirmModalOpen = false"
             class="text-blue-500 bg-gray-200 my-2 mt-4 hover:bg-gray-300 rounded-full"
           >
-            닫기
+            {{ closeText }}
           </BaseButton>
         </div>
       </div>
@@ -37,16 +37,28 @@
 <script>
 import { mapActions } from "vuex";
 import BaseButton from "@/components/templates/BaseButton.vue";
+import { text } from "@/constants/index";
 
 export default {
   components: {
     BaseButton,
   },
   data() {
+    const { AFTER_THIS_MEMO, ONLY_THIS_MEMO, EDIT, CLOSE, DELETE } = text;
     return {
-      editOrDelete:
-        this.$store.state.confirmModalType === "edit" ? "수정" : "삭제",
+      afterThisMemo: AFTER_THIS_MEMO,
+      onlyThisMemo: ONLY_THIS_MEMO,
+      editText: EDIT,
+      closeText: CLOSE,
+      deleteText: DELETE,
     };
+  },
+  computed: {
+    editOrDelete() {
+      return this.$store.state.confirmModalType === "edit"
+        ? this.editText
+        : this.deleteText;
+    },
   },
   methods: {
     ...mapActions([

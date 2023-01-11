@@ -1,0 +1,17 @@
+export const text = {
+  EVENT: "이벤트",
+  NEW_EVENT: "새로운 이벤트",
+  MEMO: "메모",
+  WRITE_MEMO: "메모를 입력해주세요",
+  DELETE: "삭제",
+  SAVE: "저장",
+  CLOSE: "닫기",
+  AFTER_THIS_MEMO: "이후 모든 메모",
+  ONLY_THIS_MEMO: "이 메모만",
+  EDIT: "수정",
+  EMPTY_MEMOLIST: "저장된 메모가 없습니다.",
+  GET_PRE_MEMOLIST: "이전 메모 불러오기",
+  WARN_NO_REPEAT_CHECK: "종료설정 없을 시 1년 반복",
+  TODAY: "today",
+  SHOW_ALL_MEMOLIST: "일정확인",
+};

@@ -74,13 +74,13 @@
       </template>
       <template v-slot:footer>
         <div class="bg-gray-100 text-center p-2 border-t rounded-b-lg">
-          <BaseButton class="hover:bg-blue-700" @click="moveToToday"
-            >Today</BaseButton
-          >
+          <BaseButton class="hover:bg-blue-700" @click="moveToToday">{{
+            today
+          }}</BaseButton>
           <BaseButton
             class="hover:bg-blue-700"
             @click="this.$store.commit('showScheduleList')"
-            >일정확인</BaseButton
+            >{{ allList }}</BaseButton
           >
         </div>
       </template>
@@ -91,17 +91,21 @@
 <script>
 import { mapGetters } from "vuex";
 import BaseButton from "@/components/templates/BaseButton.vue";
+import { text } from "@/constants/index";
 
 export default {
   components: {
     BaseButton,
   },
   data() {
+    const { TODAY, SHOW_ALL_MEMOLIST } = text;
     return {
       masks: {
         title: "YYYY년 MMMM",
         weekdays: "WWW",
       },
+      today: TODAY,
+      allList: SHOW_ALL_MEMOLIST,
     };
   },
   methods: {

@@ -156,7 +156,7 @@
           "
           class="w-5/12 flex items-end"
         >
-          <div class="text-xxs">종료설정 없을 시 1년 반복</div>
+          <div class="text-xxs">{{ warnNoRepeatCheck }}</div>
         </div>
       </div>
       <div class="flex-col w-2/7 pl-1 text-sm text-left mt-2">
@@ -181,12 +181,20 @@
 <script>
 import { mapGetters } from "vuex";
 import { formatDate } from "@/utils/filters";
+import { text } from "@/constants/index";
+
 export default {
   computed: {
     ...mapGetters(["currentData"]),
     endRepeatNumber() {
       return this.currentData.customData.repeat.repeatCount;
     },
+  },
+  data() {
+    const { WARN_NO_REPEAT_CHECK } = text;
+    return {
+      warnNoRepeatCheck: WARN_NO_REPEAT_CHECK,
+    };
   },
   methods: {
     formatDate,

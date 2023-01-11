@@ -7,21 +7,21 @@
             <label
               for="title"
               class="text-left block left-0 mb-1 pl-1 text-sm font-medium text-gray-900"
-              >이벤트</label
+              >{{ eventTitle }}</label
             >
             <input
               id="title"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               type="text"
               v-model="currentData.customData.title"
-              placeholder="새로운 이벤트"
+              :placeholder="newEvent"
             />
           </div>
           <div class="mb-2">
             <label
               for="memo"
               class="text-left block left-0 mb-1 pl-1 text-sm font-medium text-gray-900"
-              >메모</label
+              >{{ memoTitle }}</label
             >
             <input
               id="memo"
@@ -29,16 +29,16 @@
               type="text"
               v-model="currentData.customData.memo"
               @focus="this.$store.state.isEmpty = false"
-              placeholder="메모"
+              :placeholder="memoTitle"
             />
           </div>
-          <TimePicker></TimePicker>
+          <MemoModalRepeatPicker></MemoModalRepeatPicker>
         </div>
         <div
           v-if="this.$store.state.isEmpty"
           class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-1"
         >
-          <p>메모를 입력해주세요</p>
+          <p>{{ writeMemo }}</p>
         </div>
         <p v-else>&nbsp;</p>
         <footer class="modal-footer flex justify-between">
@@ -46,18 +46,18 @@
             class="bg-red-500 hover:bg-red-700"
             v-if="!this.$store.state.isNew"
             @click="checkRepeat('delete')"
-            >삭제</BaseButton
+            >{{ deleteText }}</BaseButton
           >
           <div v-else></div>
           <div>
             <BaseButton class="hover:bg-blue-700" @click="checkRepeat('edit')">
-              저장
+              {{ saveText }}
             </BaseButton>
             <BaseButton
               class="text-blue-500 bg-white hover:bg-gray-200"
               @click="this.$store.commit('closeMemoModal')"
             >
-              닫기
+              {{ closeText }}
             </BaseButton>
           </div>
         </footer>
@@ -68,13 +68,27 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import TimePicker from "@/components/modals/MemoModalRepeatPicker.vue";
+import MemoModalRepeatPicker from "@/components/modals/MemoModalRepeatPicker.vue";
 import BaseButton from "@/components/templates/BaseButton.vue";
+import { text } from "@/constants/index";
 
 export default {
   components: {
-    TimePicker,
+    MemoModalRepeatPicker,
     BaseButton,
+  },
+  data() {
+    const { EVENT, NEW_EVENT, MEMO_TITLE, WRITE_MEMO, DELETE, SAVE, CLOSE } =
+      text;
+    return {
+      eventTitle: EVENT,
+      newEvent: NEW_EVENT,
+      memoTitle: MEMO_TITLE,
+      writeMemo: WRITE_MEMO,
+      deleteText: DELETE,
+      saveText: SAVE,
+      closeText: CLOSE,
+    };
   },
   computed: {
     ...mapGetters(["currentData"]),

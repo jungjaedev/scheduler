@@ -1,7 +1,7 @@
 <template>
   <transition name="modal" appear>
     <div class="modal modal-overlay">
-      <div class="modal-window cursor-default">
+      <div class="w-72 modal-window cursor-default">
         <div
           :key="componentKey"
           v-if="storedMemoList.length !== 0"
@@ -87,7 +87,7 @@
             storedMemoList.length === 0
           "
         >
-          <div class="pl-2">저장된 메모가 없습니다.</div>
+          <div class="pl-2">{{ emptyMemoList }}</div>
         </div>
         <div
           class="flex justify-center items-center text-sm underline text-blue-700"
@@ -96,13 +96,13 @@
             v-if="!isShowAllMemo"
             @click="showAllLists"
             class="cursor-pointer"
-            >이전 메모 불러오기</span
+            >{{ preMemoList }}</span
           >
         </div>
         <footer class="modal-footer">
-          <BaseButton @click="this.$store.state.isListModalOpen = false"
-            >닫기</BaseButton
-          >
+          <BaseButton @click="this.$store.state.isListModalOpen = false">
+            {{ closeText }}
+          </BaseButton>
         </footer>
       </div>
     </div>
@@ -113,13 +113,18 @@
 import { mapGetters } from "vuex";
 import BaseButton from "@/components/templates/BaseButton";
 import { formatDate } from "@/utils/filters";
+import { text } from "@/constants/index";
 
 export default {
   components: {
     BaseButton,
   },
   data() {
+    const { EMPTY_MEMOLIST, GET_PRE_MEMOLIST, CLOSE } = text;
     return {
+      emptyMemoList: EMPTY_MEMOLIST,
+      preMemoList: GET_PRE_MEMOLIST,
+      closeText: CLOSE,
       day: [
         "일요일",
         "월요일",

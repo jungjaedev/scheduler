@@ -10,26 +10,26 @@
       v-if="this.$store.state.isListModalOpen"
     >
     </ScheduleList>
-    <ModalTemplate
+    <RepeatConfirmModal
       @click.self="this.$store.state.isRepeatConfirmModalOpen = false"
       v-if="this.$store.state.isRepeatConfirmModalOpen"
-    ></ModalTemplate>
-    <CalendarBody />
+    ></RepeatConfirmModal>
+    <CalendarMain></CalendarMain>
   </div>
 </template>
 
 <script>
-import CalendarBody from "@/components/calendar/CalendarBody.vue";
-import MemoModal from "@/components/common/MemoModal.vue";
-import ModalTemplate from "@/components/modal/repeatConfirmModal.vue";
+import CalendarMain from "@/components/calendarMain/CalendarMain.vue";
+import MemoModal from "@/components/modal/MemoModal.vue";
 import ScheduleList from "@/components/modal/ScheduleList.vue";
+import RepeatConfirmModal from "../components/modal/RepeatConfirmModal.vue";
 
 export default {
   components: {
-    CalendarBody,
+    CalendarMain,
     MemoModal,
+    RepeatConfirmModal,
     ScheduleList,
-    ModalTemplate,
   },
 };
 </script>

@@ -7,7 +7,7 @@
             <label
               for="title"
               class="text-left block left-0 mb-1 pl-1 text-sm font-medium text-gray-900"
-              >{{ eventTitle }}</label
+              >{{ eventText }}</label
             >
             <input
               id="title"
@@ -21,7 +21,7 @@
             <label
               for="memo"
               class="text-left block left-0 mb-1 pl-1 text-sm font-medium text-gray-900"
-              >{{ memoTitle }}</label
+              >{{ memoText }}</label
             >
             <input
               id="memo"
@@ -29,7 +29,7 @@
               type="text"
               v-model="currentData.customData.memo"
               @focus="this.$store.state.isEmpty = false"
-              :placeholder="memoTitle"
+              :placeholder="newMemo"
             />
           </div>
           <MemoModalRepeatPicker></MemoModalRepeatPicker>
@@ -78,12 +78,21 @@ export default {
     BaseButton,
   },
   data() {
-    const { EVENT, NEW_EVENT, MEMO_TITLE, WRITE_MEMO, DELETE, SAVE, CLOSE } =
-      text;
+    const {
+      EVENT,
+      NEW_EVENT,
+      MEMO,
+      WRITE_MEMO,
+      NEW_MEMO,
+      DELETE,
+      SAVE,
+      CLOSE,
+    } = text;
     return {
-      eventTitle: EVENT,
+      eventText: EVENT,
       newEvent: NEW_EVENT,
-      memoTitle: MEMO_TITLE,
+      memoText: MEMO,
+      newMemo: NEW_MEMO,
       writeMemo: WRITE_MEMO,
       deleteText: DELETE,
       saveText: SAVE,

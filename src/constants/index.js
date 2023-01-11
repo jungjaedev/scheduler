@@ -2,6 +2,7 @@ export const text = {
   EVENT: "이벤트",
   NEW_EVENT: "새로운 이벤트",
   MEMO: "메모",
+  NEW_MEMO: "새로운 메모",
   WRITE_MEMO: "메모를 입력해주세요",
   DELETE: "삭제",
   SAVE: "저장",

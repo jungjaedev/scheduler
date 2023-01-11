@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import CalendarMain from "@/components/calendarMain/CalendarMain.vue";
-import MemoModal from "@/components/modal/MemoModal.vue";
-import ScheduleList from "@/components/modal/ScheduleList.vue";
-import RepeatConfirmModal from "../components/modal/RepeatConfirmModal.vue";
+import CalendarMain from "@/components/calendar/CalendarMain.vue";
+import MemoModal from "@/components/modals/MemoModal.vue";
+import ScheduleList from "@/components/modals/ScheduleList.vue";
+import RepeatConfirmModal from "@/components/modals/RepeatConfirmModal.vue";
 
 export default {
   components: {

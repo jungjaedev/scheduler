@@ -68,7 +68,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import TimePicker from "@/components/modal/MemoModalRepeatPicker.vue";
+import TimePicker from "@/components/modals/MemoModalRepeatPicker.vue";
 import BaseButton from "@/components/templates/BaseButton.vue";
 
 export default {

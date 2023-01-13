@@ -43,14 +43,8 @@ const closeMemoModal = (state) => {
 const addOneMemo = (state) => {
   const createdAt = new Date().toLocaleString();
 
-  const keyArray = state.memoList.map((memo) => memo.key);
-  let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
-
-  const repeatGroupIdArray = state.memoList.map(
-    (memo) => memo.customData.repeat.groupId
-  );
-  let repeatGroupId =
-    repeatGroupIdArray.length === 0 ? 1 : Math.max(...repeatGroupIdArray) + 1;
+  let key = createNewKey(state);
+  let repeatGroupId = createNewGroupId(state);
 
   const { memo, title, time, repeat } = JSON.parse(
     JSON.stringify(state.currentData.customData)
@@ -106,14 +100,8 @@ const editOneMemo = (state) => {
 const editRepeatMemo = (state) => {
   const { repeat } = JSON.parse(JSON.stringify(state.currentData.customData));
 
-  const repeatGroupIdArray = state.memoList.map(
-    (memo) => memo.customData.repeat.groupId
-  );
-  let repeatGroupId =
-    repeatGroupIdArray.length === 0 ? 1 : Math.max(...repeatGroupIdArray) + 1;
-
-  const keyArray = state.memoList.map((memo) => memo.key);
-  let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
+  let key = createNewKey(state);
+  let repeatGroupId = createNewGroupId(state);
 
   const removedIndex = [];
   for (let i = 0; i < state.memoList.length; i++) {
@@ -228,4 +216,19 @@ export {
   editRepeatMemo,
   fetchRepeatCount,
   checkDateChanged,
+};
+
+const createNewGroupId = (state) => {
+  const repeatGroupIdArray = state.memoList.map(
+    (memo) => memo.customData.repeat.groupId
+  );
+  let repeatGroupId =
+    repeatGroupIdArray.length === 0 ? 1 : Math.max(...repeatGroupIdArray) + 1;
+  return repeatGroupId;
+};
+
+const createNewKey = (state) => {
+  const keyArray = state.memoList.map((memo) => memo.key);
+  let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
+  return key;
 };

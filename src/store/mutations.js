@@ -1,5 +1,10 @@
 import { getRepeatDates, getRepeatNum } from "@/utils/repeat";
-import { storage } from "@/utils/storage";
+import {
+  storage,
+  createNewKey,
+  createNewGroupId,
+  removeRepeatList,
+} from "@/utils/storage";
 
 const showMemoModal = (state, payload) => {
   state.isDateChanged = false;
@@ -40,17 +45,15 @@ const closeMemoModal = (state) => {
   state.isEmpty = false;
 };
 
+const checkDateChanged = (state) => {
+  state.isDateChanged = true;
+};
+
 const addOneMemo = (state) => {
   const createdAt = new Date().toLocaleString();
 
-  const keyArray = state.memoList.map((memo) => memo.key);
-  let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
-
-  const repeatGroupIdArray = state.memoList.map(
-    (memo) => memo.customData.repeat.groupId
-  );
-  let repeatGroupId =
-    repeatGroupIdArray.length === 0 ? 1 : Math.max(...repeatGroupIdArray) + 1;
+  let key = createNewKey(state);
+  let repeatGroupId = createNewGroupId(state);
 
   const { memo, title, time, repeat } = JSON.parse(
     JSON.stringify(state.currentData.customData)
@@ -106,32 +109,10 @@ const editOneMemo = (state) => {
 const editRepeatMemo = (state) => {
   const { repeat } = JSON.parse(JSON.stringify(state.currentData.customData));
 
-  const repeatGroupIdArray = state.memoList.map(
-    (memo) => memo.customData.repeat.groupId
-  );
-  let repeatGroupId =
-    repeatGroupIdArray.length === 0 ? 1 : Math.max(...repeatGroupIdArray) + 1;
+  let key = createNewKey(state);
+  let repeatGroupId = createNewGroupId(state);
 
-  const keyArray = state.memoList.map((memo) => memo.key);
-  let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
-
-  const removedIndex = [];
-  for (let i = 0; i < state.memoList.length; i++) {
-    if (
-      state.currentData.dates <= state.memoList[i].dates &&
-      state.currentData.customData.repeat.groupId ===
-        state.memoList[i].customData.repeat.groupId
-    ) {
-      const indexOfData = state.memoList.findIndex(
-        (item) => item.key === state.memoList[i].key
-      );
-      localStorage.removeItem(state.memoList[i].key);
-      removedIndex.push(indexOfData);
-    }
-  }
-  for (let i = removedIndex.length - 1; i >= 0; i--) {
-    state.memoList.splice(removedIndex[i], 1);
-  }
+  removeRepeatList(state);
 
   const obj = JSON.parse(JSON.stringify(state.currentData));
   obj.customData.repeat.groupId = repeatGroupId;
@@ -161,23 +142,7 @@ const removeOneMemo = (state) => {
 };
 
 const removeRepeatMemo = (state) => {
-  const removedIndex = [];
-  for (let i = 0; i < state.memoList.length; i++) {
-    if (
-      state.currentData.dates <= state.memoList[i].dates &&
-      state.currentData.customData.repeat.groupId ===
-        state.memoList[i].customData.repeat.groupId
-    ) {
-      const indexOfData = state.memoList.findIndex(
-        (item) => item.key === state.memoList[i].key
-      );
-      localStorage.removeItem(state.memoList[i].key);
-      removedIndex.push(indexOfData);
-    }
-  }
-  for (let i = removedIndex.length - 1; i >= 0; i--) {
-    state.memoList.splice(removedIndex[i], 1);
-  }
+  removeRepeatList(state);
 };
 
 const showScheduleList = (state) => {
@@ -210,10 +175,6 @@ const fetchRepeatCount = (state) => {
 
 const fetchData = (state) => {
   state.memoList = storage.fetch();
-};
-
-const checkDateChanged = (state) => {
-  state.isDateChanged = true;
 };
 
 export {

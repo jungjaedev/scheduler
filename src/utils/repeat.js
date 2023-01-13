@@ -27,33 +27,28 @@ export const addMonths = (date, numOfMonths) => {
 export const getRepeatNum = (repeat, newObj) => {
   let repeatNum = 365;
   if (repeat.term === "weekly") {
-    repeatNum = Math.floor(repeatNum / 7);
+    return Math.floor(repeatNum / 7);
   } else if (repeat.term === "monthly") {
-    repeatNum = Math.floor(repeatNum / 30);
+    return Math.floor(repeatNum / 30);
   } else if (repeat.term === "annually") {
-    repeatNum = Math.floor(repeatNum / 365);
+    return Math.floor(repeatNum / 365);
   }
+
   if (repeat.type === "number") {
-    repeatNum = Number(repeat.repeatCount) - 1;
+    return Number(repeat.repeatCount) - 1;
   } else if (repeat.type === "date") {
     if (compareDates(newObj.dates, repeat.endDate) === true) {
       if (repeat.term === "daily") {
-        repeatNum = getRangeOfDays(newObj.dates, repeat.endDate);
+        return getRangeOfDays(newObj.dates, repeat.endDate);
       } else if (repeat.term === "weekly") {
-        repeatNum = Math.floor(
-          getRangeOfDays(newObj.dates, repeat.endDate) / 7
-        );
+        return Math.floor(getRangeOfDays(newObj.dates, repeat.endDate) / 7);
       } else if (repeat.term === "monthly") {
-        repeatNum = Math.floor(
-          getRangeOfDays(newObj.dates, repeat.endDate) / 30
-        );
+        return Math.floor(getRangeOfDays(newObj.dates, repeat.endDate) / 30);
       } else if (repeat.term === "annually") {
-        repeatNum = Math.floor(
-          getRangeOfDays(newObj.dates, repeat.endDate) / 365
-        );
+        return Math.floor(getRangeOfDays(newObj.dates, repeat.endDate) / 365);
       }
     } else {
-      repeatNum = 0;
+      return 0;
     }
   }
 

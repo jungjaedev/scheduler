@@ -40,3 +40,38 @@ export const storage = {
     return sortByDate(arr);
   },
 };
+
+export const removeRepeatList = (state) => {
+  const removedIndex = [];
+  for (let i = 0; i < state.memoList.length; i++) {
+    if (
+      state.currentData.dates <= state.memoList[i].dates &&
+      state.currentData.customData.repeat.groupId ===
+        state.memoList[i].customData.repeat.groupId
+    ) {
+      const indexOfData = state.memoList.findIndex(
+        (item) => item.key === state.memoList[i].key
+      );
+      localStorage.removeItem(state.memoList[i].key);
+      removedIndex.push(indexOfData);
+    }
+  }
+  removedIndex
+    .reverse()
+    .forEach((indexNum) => state.memoList.splice(indexNum, 1));
+};
+
+export const createNewGroupId = (state) => {
+  const repeatGroupIdArray = state.memoList.map(
+    (memo) => memo.customData.repeat.groupId
+  );
+  let repeatGroupId =
+    repeatGroupIdArray.length === 0 ? 1 : Math.max(...repeatGroupIdArray) + 1;
+  return repeatGroupId;
+};
+
+export const createNewKey = (state) => {
+  const keyArray = state.memoList.map((memo) => memo.key);
+  let key = keyArray.length === 0 ? 1 : Math.max(...keyArray) + 1;
+  return key;
+};

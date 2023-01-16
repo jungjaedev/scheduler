@@ -1,10 +1,10 @@
+import _ from "lodash";
 import { getRepeatDates, getRepeatNum } from "@/utils/repeat";
 import {
   storage,
   createNewKey,
   createNewGroupId,
   removeRepeatList,
-  deepEqual,
 } from "@/utils/storage";
 
 const showMemoModal = (state, payload) => {
@@ -12,8 +12,8 @@ const showMemoModal = (state, payload) => {
   if (payload.type !== "new") {
     state.isNew = false;
     const data = state.memoList.find((memo) => memo.key === payload.type);
-    state.currentData = JSON.parse(JSON.stringify(data));
-    state.savedRepeatData = JSON.parse(JSON.stringify(data));
+    state.currentData = _.cloneDeep(data);
+    state.savedRepeatData = _.cloneDeep(data);
   } else {
     state.currentData = {
       customData: {
@@ -48,7 +48,7 @@ const closeMemoModal = (state) => {
 };
 
 const checkDateChanged = (state) => {
-  state.isDateChanged = deepEqual(
+  state.isDateChanged = _.isEqual(
     state.savedRepeatData.customData.repeat,
     state.currentData.customData.repeat
   );
@@ -83,6 +83,8 @@ const addOneMemo = (state) => {
 
   localStorage.setItem(key, JSON.stringify(obj));
   state.memoList.push(obj);
+
+  // 반복 메모일 경우
   if (repeat.isRepeat) {
     const newObj = { ...obj };
     const repeatNum = getRepeatNum(repeat, newObj);
@@ -112,14 +114,16 @@ const editOneMemo = (state) => {
 };
 
 const editRepeatMemo = (state) => {
-  const { repeat } = JSON.parse(JSON.stringify(state.currentData.customData));
+  const { repeat } = _.cloneDeep(state.currentData.customData);
 
   let key = createNewKey(state);
   let repeatGroupId = createNewGroupId(state);
 
+  // 해당 날짜 이후의 메모 삭제
   removeRepeatList(state);
 
-  const obj = JSON.parse(JSON.stringify(state.currentData));
+  // 새 반복 메모 생성
+  const obj = _.cloneDeep(state.currentData);
   obj.customData.repeat.groupId = repeatGroupId;
   obj.key = key;
   localStorage.setItem(key++, JSON.stringify(obj));

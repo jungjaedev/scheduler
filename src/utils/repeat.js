@@ -1,9 +1,19 @@
 import moment from "moment";
 
-export const getRangeOfDays = (currentDate, endDate) => {
+export const getRangeOfDays = (currentDate, endDate, term) => {
   const firstDate = moment(currentDate);
   const secondDate = moment(endDate);
-  return secondDate.diff(firstDate, "days");
+  let repeatTerm = "";
+  if (term === "daily") {
+    repeatTerm = "days";
+  } else if (term === "weekly") {
+    repeatTerm = "weeks";
+  } else if (term === "monthly") {
+    repeatTerm = "months";
+  } else if (term === "annually") {
+    repeatTerm = "years";
+  }
+  return secondDate.diff(firstDate, repeatTerm);
 };
 
 export const getRepeatNum = (repeat, newObj) => {
@@ -11,15 +21,7 @@ export const getRepeatNum = (repeat, newObj) => {
     return Number(repeat.repeatCount) - 1;
   } else if (repeat.type === "date") {
     if (moment(newObj.dates) < moment(repeat.endDate)) {
-      if (repeat.term === "daily") {
-        return getRangeOfDays(newObj.dates, repeat.endDate);
-      } else if (repeat.term === "weekly") {
-        return Math.floor(getRangeOfDays(newObj.dates, repeat.endDate) / 7);
-      } else if (repeat.term === "monthly") {
-        return Math.floor(getRangeOfDays(newObj.dates, repeat.endDate) / 30);
-      } else if (repeat.term === "annually") {
-        return Math.floor(getRangeOfDays(newObj.dates, repeat.endDate) / 365);
-      }
+      return getRangeOfDays(newObj.dates, repeat.endDate, repeat.term);
     } else {
       return 0;
     }

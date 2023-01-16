@@ -124,6 +124,7 @@ export default {
       ) {
         this.$store.state.confirmModalType = "edit";
       }
+      this.$store.commit("checkDateChanged");
       this.$store.commit("closeMemoModal");
       this.$store.state.isRepeatConfirmModalOpen = true;
     },

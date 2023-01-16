@@ -4,6 +4,7 @@ import {
   createNewKey,
   createNewGroupId,
   removeRepeatList,
+  deepEqual,
 } from "@/utils/storage";
 
 const showMemoModal = (state, payload) => {
@@ -12,6 +13,7 @@ const showMemoModal = (state, payload) => {
     state.isNew = false;
     const data = state.memoList.find((memo) => memo.key === payload.type);
     state.currentData = JSON.parse(JSON.stringify(data));
+    state.savedRepeatData = JSON.parse(JSON.stringify(data));
   } else {
     state.currentData = {
       customData: {
@@ -46,7 +48,10 @@ const closeMemoModal = (state) => {
 };
 
 const checkDateChanged = (state) => {
-  state.isDateChanged = true;
+  state.isDateChanged = deepEqual(
+    state.savedRepeatData.customData.repeat,
+    state.currentData.customData.repeat
+  );
 };
 
 const addOneMemo = (state) => {

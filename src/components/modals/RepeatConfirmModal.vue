@@ -13,7 +13,7 @@
             v-if="
               this.$store.state.confirmModalType === 'delete' ||
               (this.$store.state.confirmModalType === 'edit' &&
-                (!this.$store.state.isDateChanged ||
+                (this.$store.state.isDateChanged ||
                   this.$store.state.currentData.customData.repeat.term ===
                     'none'))
             "

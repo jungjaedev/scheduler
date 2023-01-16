@@ -79,7 +79,6 @@
             name="alert"
             :disabled="currentData.customData.time.allDay"
             v-model="currentData.customData.repeat.term"
-            @change="this.$store.commit('checkDateChanged')"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
           >
             <option value="none">없음</option>
@@ -99,7 +98,6 @@
               currentData.customData.time.allDay ||
               currentData.customData.repeat.term === 'none'
             "
-            @change="this.$store.commit('checkDateChanged')"
             v-model="currentData.customData.repeat.type"
             class="w-full p-1.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
           >
@@ -125,7 +123,6 @@
                 class="placeholder:text-xs px-2 py-1 w-4/5 border rounded focus:outline-none focus:border-blue-300"
                 :value="inputValue"
                 v-on="inputEvents"
-                @change="this.$store.commit('checkDateChanged')"
                 placeholder="Select a date"
               />
             </template>
@@ -143,7 +140,6 @@
               currentData.customData.time.allDay ||
               currentData.customData.repeat.term === 'none'
             "
-            @change="this.$store.commit('checkDateChanged')"
             type="number"
             class="px-2 py-1 w-3/5 border rounded focus:outline-none focus:border-blue-300"
             v-model="currentData.customData.repeat.repeatCount"

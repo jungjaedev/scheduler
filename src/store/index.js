@@ -16,6 +16,7 @@ export default createStore({
       isRepeatConfirmModalOpen: false,
       isDateChanged: false,
       confirmModalType: "",
+      savedRepeatData: {},
       currentData: {
         customData: {
           createdAt: "",

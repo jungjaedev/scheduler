@@ -1,11 +1,9 @@
-import moment from "moment";
+import moment, { months } from "moment";
 
 export const getRangeOfDays = (currentDate, endDate) => {
-  const oneDay = 24 * 60 * 60 * 1000;
-
-  const firstDate = new Date(currentDate);
-  const secondDate = new Date(endDate);
-  return Math.round(Math.abs((firstDate - secondDate) / oneDay));
+  const firstDate = moment(currentDate);
+  const secondDate = moment(endDate);
+  return secondDate.diff(firstDate, "days");
 };
 
 export const getRepeatNum = (repeat, newObj) => {

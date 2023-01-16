@@ -42,5 +42,19 @@ text-align: right;
 }
 
 .today {
-    color: rgb(128, 255, 0);
-  }
+  color: rgb(128, 255, 0);
+}
+
+.alertbackground {
+  background-color: rgb(21, 166, 125);
+}
+.timesetbackground {
+  background-color: rgb(230, 173, 0);
+}
+
+.alert {
+  color: rgb(21, 166, 125);
+}
+.timeset {
+  color: rgb(230, 173, 0);
+}

@@ -34,12 +34,12 @@
               :key="attr.key"
               :class="[
                 {
-                  alert:
+                  alertbackground:
                     attr.customData.time.alert !== 'none' &&
                     !attr.customData.time.allDay,
                 },
                 {
-                  timeset:
+                  timesetbackground:
                     !attr.customData.time.allDay &&
                     attr.customData.time.alert === 'none',
                 },
@@ -179,11 +179,5 @@ export default {
   & .vc-day-dots {
     margin-bottom: 5px;
   }
-}
-.alert {
-  background-color: rgb(21, 166, 125);
-}
-.timeset {
-  background-color: rgb(230, 173, 0);
 }
 </style>

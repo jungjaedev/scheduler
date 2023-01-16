@@ -175,11 +175,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.alert {
-  color: rgb(21, 166, 125);
-}
-.timeset {
-  color: rgb(230, 173, 0);
-}
-</style>
+<style scoped></style>

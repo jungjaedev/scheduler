@@ -1,4 +1,4 @@
-import moment, { months } from "moment";
+import moment from "moment";
 
 export const getRangeOfDays = (currentDate, endDate) => {
   const firstDate = moment(currentDate);
@@ -38,6 +38,5 @@ export const getRepeatDates = (myDate, term) => {
   } else {
     date = moment(myDate).add(1, "years").format("YYYY-MM-DD");
   }
-  console.log(date);
   return date;
 };

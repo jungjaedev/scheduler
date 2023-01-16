@@ -81,6 +81,7 @@ const addOneMemo = (state) => {
   if (repeat.isRepeat) {
     const newObj = { ...obj };
     const repeatNum = getRepeatNum(repeat, newObj);
+    console.log(repeatNum);
 
     for (let i = 0; i < repeatNum; i++) {
       if (repeat.type === "number") {

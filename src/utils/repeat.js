@@ -8,19 +8,11 @@ export const getRangeOfDays = (currentDate, endDate) => {
   return Math.round(Math.abs((firstDate - secondDate) / oneDay));
 };
 
-export const compareDates = (currentDate, endDate) => {
-  const firstDate = new Date(currentDate);
-  const secondDate = new Date(endDate);
-  return firstDate < secondDate;
-};
-
 export const getRepeatNum = (repeat, newObj) => {
-  let repeatNum = 365;
-
   if (repeat.type === "number") {
     return Number(repeat.repeatCount) - 1;
   } else if (repeat.type === "date") {
-    if (compareDates(newObj.dates, repeat.endDate) === true) {
+    if (moment(newObj.dates) < moment(repeat.endDate)) {
       if (repeat.term === "daily") {
         return getRangeOfDays(newObj.dates, repeat.endDate);
       } else if (repeat.term === "weekly") {
@@ -34,8 +26,7 @@ export const getRepeatNum = (repeat, newObj) => {
       return 0;
     }
   }
-
-  return repeatNum;
+  return 365;
 };
 
 export const getRepeatDates = (myDate, term) => {

@@ -60,8 +60,8 @@ const addOneMemo = (state) => {
   let key = createNewKey(state);
   let repeatGroupId = createNewGroupId(state);
 
-  const { memo, title, time, repeat } = JSON.parse(
-    JSON.stringify(state.currentData.customData)
+  const { memo, title, time, repeat } = _.cloneDeep(
+    state.currentData.customData
   );
 
   repeat.isRepeat = repeat.term === "none" ? false : true;

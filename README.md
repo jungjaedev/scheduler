@@ -3,7 +3,7 @@
 ## 프로젝트 소개
 
 - 주제 : v-calendar를 활용한 Scheduler
-- 기간 : 2022.12.20 ~
+- 기간 : 2022.12.20 ~ 2023.01.16
 - [배포링크](https://scheduler-sigma.vercel.app/calendar)
 
 <br />
